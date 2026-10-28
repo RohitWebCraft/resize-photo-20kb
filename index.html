@@ -46,9 +46,10 @@
 </label>
 <div id="w1" class="hide">
 <div class="grid" style="margin-top:14px">
-<div><div class="stat">Original: <span class="size" id="o1">–</span> · <span id="od">–</span></div><img class="pv" id="p1" alt="Original image preview"></div>
-<div><div class="stat">Compressed: <span class="size" id="c1">–</span> · <span id="cd">–</span></div><img class="pv" id="p2" alt="Compressed image preview"></div>
+<div><div class="stat">Original: <span class="size" id="o1">–</span> · <span id="od">–</span></div><img class="pv zoomable" id="p1" alt="Original image preview"></div>
+<div><div class="stat">Compressed: <span class="size" id="c1">–</span> · <span id="cd">–</span></div><img class="pv zoomable" id="p2" alt="Compressed image preview"></div>
 </div>
+<p class="stat">🔍 Tap a preview to zoom in and check quality and pixels.</p>
 <h3 class="sh">1. Dimensions (optional)</h3>
 <div class="row">
 <label>Width (px)<input type="number" id="wi" min="1" max="8000"></label>
@@ -385,5 +386,6 @@ $('b3').onclick=async()=>{
   }
 };
 </script>
+<script src="zoom.js"></script>
 </body>
 </html>

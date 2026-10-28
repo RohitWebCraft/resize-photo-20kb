@@ -24,7 +24,8 @@
 <div class="row"><label>Max size (optional)<input type="number" id="ck" min="1" step="any" placeholder="e.g. 50"></label><select id="cu" aria-label="Unit"><option>KB</option><option>MB</option></select></div>
 <button class="p" id="go">Create photo with name &amp; date</button>
 <p id="msg" class="stat" role="status"></p>
-<img class="pv hide" id="pv" alt="Result preview"><a class="p hide" id="dl" download>⬇ Download Image</a>
+<p class="stat">🔍 Tap the result to zoom in and check it.</p>
+<img class="pv zoomable hide" id="pv" alt="Result preview"><a class="p hide" id="dl" download>⬇ Download Image</a>
 </div>
 <section class="how"><h2>How to add name and date to your photo</h2>
 <p>Upload your passport size photo, enter your name exactly as on your application, choose the date and tap the button. FormFit adds a white strip with your name and date below the photo. If your form has a size limit, type it in KB or MB (for example 50 KB) and the image is compressed to fit. Need only a smaller file? Use the <a href="./">photo resizer to 20KB, 50KB or 100KB</a>. To submit a photo and signature together, try <a href="photo-signature-join.html">join photo and signature</a>.</p></section>
@@ -35,6 +36,7 @@
 <div><strong>Private by design</strong><p>All tools run inside your browser. Your photos and documents are never uploaded to any server.</p></div>
 </div><p class="copy">© 2026 FormFit · Free online student utility tools</p></footer>
 <script src="common.js"></script>
+<script src="zoom.js"></script>
 <script>
 let ph=null,nm='photo';
 zone('d1',async fs=>{

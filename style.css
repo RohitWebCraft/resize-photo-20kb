@@ -67,3 +67,13 @@ header .logo{color:#fff;text-decoration:none}
 .page .card h2{color:var(--b);font-size:1.15rem;margin:18px 0 4px}
 input[type=text],input[type=date]{display:block;padding:10px;border:1.5px solid var(--l);border-radius:10px;font:inherit;width:100%;max-width:320px;margin-top:2px}
 
+img.zoomable{cursor:zoom-in}
+.zm{position:fixed;inset:0;z-index:1000;background:rgba(15,23,42,.96);display:flex;flex-direction:column}
+.zm.hide{display:none}
+.zt{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 12px;color:#fff;font-size:.9rem}
+.zbtns{display:flex;gap:6px}
+.zbtns button{background:#1e293b;color:#fff;border:1px solid #475569;border-radius:8px;min-width:40px;height:38px;padding:0 10px;font:600 .95rem inherit;cursor:pointer}
+.zbtns button:hover{background:var(--b2)}
+.zs{position:relative;flex:1;overflow:hidden;touch-action:none;cursor:grab;background:repeating-conic-gradient(#1e293b 0 25%,#0f172a 0 50%) 0 0/20px 20px}
+.zs img{position:absolute;left:0;top:0;max-width:none;max-height:none;transform-origin:0 0;user-select:none;-webkit-user-drag:none}
+.zs img.px{image-rendering:pixelated}
