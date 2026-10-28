@@ -1,6 +1,6 @@
 // FormFit service worker: caches the app so it opens without internet.
 // When you change index.html, bump the version number below.
-const CACHE = 'formfit-v1';
+const CACHE = 'formfit-v2';
 const FILES = ['./', 'index.html', 'manifest.json', 'icon-192.png', 'icon-512.png'];
 
 self.addEventListener('install', e => {

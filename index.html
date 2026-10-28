@@ -6,6 +6,7 @@
 <title>FormFit | Online Image Resizer to 20KB & 50KB for Exam Forms</title>
 <meta name="description" content="Free online tool to resize photo and signature to 20KB, 50KB or 100KB, convert images to PDF and compress PDFs. No login, works offline in your browser.">
 <meta name="keywords" content="resize photo to 20kb, photo compress for exam, signature resizer, image to pdf converter online">
+<meta name="google-site-verification" content="1jkzCsHpl7VUOyhkfYKUKMNPibUs1zLaWd-sSThmX8g" />
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://rohitwebcraft.github.io/resize-photo-20kb/">
 <link rel="manifest" href="manifest.json">
@@ -56,6 +57,11 @@ img.pv{max-width:100%;max-height:220px;display:block;margin:8px auto;border-radi
 .th .ctl{display:flex;border-top:1px solid var(--l)}
 .th .ctl button{flex:1;border:0;background:#f8fafc;padding:6px 0;cursor:pointer;font-size:.95rem}
 .th .ctl button:hover{background:var(--bl)}
+.row{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;margin:8px 0}
+.row label{font-size:.85rem;color:var(--m)}
+input[type=number]{display:block;padding:10px;border:1.5px solid var(--l);border-radius:10px;font:inherit;width:130px;margin-top:2px}
+.sh{font-size:1rem;margin:18px 0 4px;color:var(--b)}
+.chk{display:block;margin:6px 0 10px;font-size:.9rem}
 .hide{display:none}
 section.how{margin:36px 0}
 section.how h2{color:var(--b)}
@@ -87,10 +93,25 @@ footer{text-align:center;color:var(--m);font-size:.85rem;padding:22px 16px}
 <div><div class="stat">Original: <span class="size" id="o1">–</span> · <span id="od">–</span></div><img class="pv" id="p1" alt="Original image preview"></div>
 <div><div class="stat">Compressed: <span class="size" id="c1">–</span> · <span id="cd">–</span></div><img class="pv" id="p2" alt="Compressed image preview"></div>
 </div>
+<h3 class="sh">1. Dimensions (optional)</h3>
+<div class="row">
+<label>Width (px)<input type="number" id="wi" min="1" max="8000"></label>
+<span>×</span>
+<label>Height (px)<input type="number" id="hi" min="1" max="8000"></label>
+</div>
+<label class="chk"><input type="checkbox" id="lk" checked> Keep aspect ratio (height/width adjust automatically)</label>
+<button class="o" id="rs" type="button">Reset to original</button>
+<button class="o" id="ro" type="button">Resize only (no KB limit)</button>
+<h3 class="sh">2. Target file size</h3>
 <div class="btns">
 <button class="p" data-k="20">Under 20KB</button>
 <button class="p" data-k="50">Under 50KB</button>
 <button class="p" data-k="100">Under 100KB</button>
+</div>
+<div class="row">
+<label>Custom size<input type="number" id="ck" min="1" step="any" placeholder="e.g. 35"></label>
+<select id="cu" aria-label="Unit"><option>KB</option><option>MB</option></select>
+<button class="p" id="cb" type="button">Compress to custom size</button>
 </div>
 <p id="m1" class="stat" role="status"></p>
 <a class="p hide" id="dl1" download>⬇ Download Image</a>
@@ -124,7 +145,12 @@ footer{text-align:center;color:var(--m);font-size:.85rem;padding:22px 16px}
 <option value="0.7,1">Light (best quality)</option>
 <option value="0.5,0.8" selected>Medium (recommended)</option>
 <option value="0.35,0.6">Strong (smallest size)</option>
-</select><br>
+<option value="custom">Custom size (choose KB / MB)</option>
+</select>
+<div class="row hide" id="cu3">
+<label>Target size<input type="number" id="tv3" min="1" step="any" placeholder="e.g. 200"></label>
+<select id="tu3" aria-label="Unit"><option>KB</option><option>MB</option></select>
+</div>
 <button class="p" id="b3">Compress PDF</button>
 <p id="m3" class="stat" role="status"></p>
 <a class="p hide" id="dl3" download>⬇ Download Compressed PDF</a>
@@ -176,6 +202,7 @@ function draw(img,scale){
   const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);
   x.drawImage(img,0,0,c.width,c.height);return c;
 }
+function drawWH(img,w,h){const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,w,h);x.drawImage(img,0,0,w,h);return c}
 const toBlob=(c,q)=>new Promise(r=>c.toBlob(r,'image/jpeg',q));
 const isImg=f=>/^image\/(jpeg|png)$/.test(f.type);
 
@@ -189,30 +216,53 @@ zone('d1',async fs=>{
   $('w1').classList.remove('hide');$('dl1').classList.add('hide');$('m1').textContent='';
   $('p1').src=img1.src;$('o1').textContent=fmt(f.size);
   $('od').textContent=img1.naturalWidth+'×'+img1.naturalHeight+' px';
+  $('wi').value=img1.naturalWidth;$('hi').value=img1.naturalHeight;
   $('p2').removeAttribute('src');$('c1').textContent='–';$('cd').textContent='–';
 });
-document.querySelectorAll('[data-k]').forEach(b=>b.onclick=async()=>{
+function sync(from){
+  if(!img1||!$('lk').checked)return;
+  const r=img1.naturalWidth/img1.naturalHeight;
+  if(from==='w')$('hi').value=Math.max(1,Math.round($('wi').value/r));
+  else $('wi').value=Math.max(1,Math.round($('hi').value*r));
+}
+$('wi').oninput=()=>sync('w');$('hi').oninput=()=>sync('h');
+$('lk').onchange=()=>sync('w');
+$('rs').onclick=()=>{if(img1){$('wi').value=img1.naturalWidth;$('hi').value=img1.naturalHeight}};
+async function run1(target,tag){
   if(!img1)return;
-  const target=b.dataset.k*1024,m=$('m1');
-  m.className='stat';m.textContent='Compressing…';await wait();
-  const s0=Math.min(1,1600/Math.max(img1.naturalWidth,img1.naturalHeight));let best=null;
-  for(const f of [1,.85,.7,.55,.42,.32,.24,.16,.1]){
-    const c=draw(img1,s0*f);let lo=.05,hi=.95,found=null;
-    for(let i=0;i<7;i++){
-      const q=(lo+hi)/2,bl=await toBlob(c,q);
-      if(bl.size<=target){found={bl,c};lo=q}else hi=q;
+  const m=$('m1'),w=Math.round(+$('wi').value),h=Math.round(+$('hi').value);
+  if(!(w>0&&h>0)||w>8000||h>8000){m.className='stat err';m.textContent='Enter width and height between 1 and 8000 px.';return}
+  m.className='stat';m.textContent='Working…';await wait();
+  const custom=w!==img1.naturalWidth||h!==img1.naturalHeight;
+  let best=null;
+  if(target==null){const c=drawWH(img1,w,h);best={bl:await toBlob(c,.92),c}}
+  else{
+    const s0=Math.min(1,1600/Math.max(img1.naturalWidth,img1.naturalHeight));
+    for(const f of (custom?[1]:[1,.85,.7,.55,.42,.32,.24,.16,.1])){
+      const c=custom?drawWH(img1,w,h):draw(img1,s0*f);let lo=.05,hi=.95,found=null;
+      for(let i=0;i<7;i++){
+        const q=(lo+hi)/2,bl=await toBlob(c,q);
+        if(bl.size<=target){found={bl,c};lo=q}else hi=q;
+      }
+      if(!found){const bl=await toBlob(c,.05);if(bl.size<=target)found={bl,c}}
+      if(found){best=found;break}
     }
-    if(!found){const bl=await toBlob(c,.05);if(bl.size<=target)found={bl,c}}
-    if(found){best=found;break}
   }
-  if(!best){m.className='stat err';m.textContent='Could not reach that size. Try a larger target.';return}
+  if(!best){m.className='stat err';m.textContent=custom?'Could not reach that size at these exact dimensions. Try a larger size or smaller dimensions.':'Could not reach that size. Try a larger target.';return}
   if(url1)URL.revokeObjectURL(url1);
   url1=URL.createObjectURL(best.bl);
   $('p2').src=url1;$('c1').textContent=fmt(best.bl.size);
   $('cd').textContent=best.c.width+'×'+best.c.height+' px';
-  const a=$('dl1');a.href=url1;a.download=`${name1}_${b.dataset.k}kb.jpg`;a.classList.remove('hide');
-  m.className='stat ok';m.textContent=`✔ Done. ${fmt(size1)} → ${fmt(best.bl.size)} (under ${b.dataset.k}KB).`;
-});
+  const a=$('dl1');a.href=url1;a.download=`${name1}_${tag}.jpg`;a.classList.remove('hide');
+  m.className='stat ok';m.textContent=`✔ Done. ${fmt(size1)} → ${fmt(best.bl.size)}, ${best.c.width}×${best.c.height} px.`;
+}
+document.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>run1(b.dataset.k*1024,b.dataset.k+'kb'));
+$('ro').onclick=()=>run1(null,'resized');
+$('cb').onclick=()=>{
+  const v=parseFloat($('ck').value);
+  if(!(v>0)){$('m1').className='stat err';$('m1').textContent='Enter a custom size greater than 0.';return}
+  run1(Math.round(v*($('cu').value==='MB'?1048576:1024)),v+$('cu').value.toLowerCase());
+};
 
 // ---------- TAB 2 ----------
 function buildPdf(pages){
@@ -321,19 +371,35 @@ async function recompress(s,q,sc,say){
   x+=`trailer\n<</Size ${max+1}/Root ${root[1]}${info?'/Info '+info[1]:''}>>\nstartxref\n${xp}\n%%EOF\n`;
   return {s:out+x,done};
 }
+const ladder=[[.7,1],[.55,.85],[.4,.7],[.3,.55],[.22,.42],[.15,.32],[.1,.24]];
+$('q3').onchange=()=>$('cu3').classList.toggle('hide',$('q3').value!=='custom');
 $('b3').onclick=async()=>{
-  const m=$('m3'),[q,sc]=$('q3').value.split(',').map(Number);
+  const m=$('m3'),custom=$('q3').value==='custom';let target=null;
+  if(custom){
+    const v=parseFloat($('tv3').value);
+    if(!(v>0)){m.className='stat err';m.textContent='Enter a target size greater than 0.';return}
+    target=Math.round(v*($('tu3').value==='MB'?1048576:1024));
+    if(pdf3.size<=target){m.className='stat ok';m.textContent=`This PDF (${fmt(pdf3.size)}) is already under ${fmt(target)}.`;$('dl3').classList.add('hide');return}
+  }
   m.className='stat';m.textContent='Reading PDF…';await wait();
   let s=bin(new Uint8Array(await pdf3.arrayBuffer()));
   for(const p of passes)s=p(s);
-  let note='';
+  const tries=custom?ladder:[$('q3').value.split(',').map(Number)];
+  let note='',best=s,done=0;
   try{
-    const r=await recompress(s,q,sc,t=>m.textContent=t);
-    if(r===null)note=' (This PDF type can\'t be deeply compressed here; only safe cleanup applied.)';
-    else if(!r.done)note=' (No compressible JPEG images found in this PDF.)';
-    else{s=r.s;note=` (${r.done} image(s) recompressed.)`}
+    for(let i=0;i<tries.length;i++){
+      const [q,sc]=tries[i];
+      const r=await recompress(s,q,sc,t=>m.textContent=(custom?`Pass ${i+1}/${tries.length}: `:'')+t);
+      if(r===null){note=' (This PDF type can\'t be deeply compressed here; only safe cleanup applied.)';break}
+      if(!r.done){note=' (No compressible JPEG images found in this PDF.)';break}
+      best=r.s;done=r.done;
+      if(custom&&best.length<=target)break;
+    }
+    if(done)note=` (${done} image(s) recompressed.)`;
   }catch(e){note=' (Deep compression failed; safe cleanup only.)'}
+  s=best;
   const bl=new Blob([unbin(s)],{type:'application/pdf'}),a=$('dl3'),saved=pdf3.size-bl.size;
+  if(custom&&bl.size>target)note+=` Could not reach ${fmt(target)}; this is the smallest possible for this file.`;
   if(saved>0){
     a.href=URL.createObjectURL(bl);a.download='compressed_'+pdf3.name;a.classList.remove('hide');
     m.className='stat ok';m.textContent=`✔ ${fmt(pdf3.size)} → ${fmt(bl.size)} (saved ${fmt(saved)}).${note}`;
@@ -341,11 +407,6 @@ $('b3').onclick=async()=>{
     a.classList.add('hide');m.className='stat';m.textContent='No safe size reduction possible for this file.'+note;
   }
 };
-
-// ---------- PWA ----------
-if('serviceWorker' in navigator&&location.protocol.startsWith('http')){
-  window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
-}
 </script>
 </body>
 </html>
