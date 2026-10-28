@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FormFit | Online Image Resizer to 20KB & 50KB for Exam Forms</title>
+<meta name="description" content="Free online tool to resize photo and signature to 20KB, 50KB or 100KB, convert images to PDF and compress PDFs. No login, works offline in your browser.">
+<meta name="keywords" content="resize photo to 20kb, photo compress for exam, signature resizer, image to pdf converter online">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://rohitwebcraft.github.io/resize-photo-20kb/">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="theme-color" content="#1d4ed8">
+<meta property="og:type" content="website">
+<meta property="og:title" content="FormFit | Online Image Resizer to 20KB & 50KB for Exam Forms">
+<meta property="og:description" content="Resize photo and signature to 20KB, 50KB or 100KB, convert images to PDF and compress PDFs. Free, no login.">
+<meta property="og:url" content="https://rohitwebcraft.github.io/resize-photo-20kb/">
+<meta property="og:image" content="https://rohitwebcraft.github.io/resize-photo-20kb/icon-512.png">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"FormFit","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"INR"}}</script>
+<style>
+:root{--b:#1d4ed8;--b2:#2563eb;--bl:#eff6ff;--t:#0f172a;--m:#64748b;--l:#e2e8f0}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:#f8fafc;color:var(--t);line-height:1.6}
+header{background:linear-gradient(90deg,#1e3a8a,#1d4ed8);color:#fff;padding:14px 16px}
+.wrap{max-width:900px;margin:0 auto;padding:0 16px}
+header .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;padding:0}
+.logo{font-size:1.5rem;font-weight:800}.badge{font-size:.78rem;background:rgba(255,255,255,.15);padding:4px 10px;border-radius:99px}
+h1{font-size:clamp(1.4rem,4.5vw,2.2rem);text-align:center;margin:28px 0 8px;line-height:1.25}
+.sub{text-align:center;color:var(--m);max-width:620px;margin:0 auto 22px}
+.tabs{display:flex;gap:6px;overflow-x:auto;border-bottom:2px solid var(--l);margin-bottom:18px}
+.tabs button{flex:1;white-space:nowrap;background:none;border:0;border-bottom:3px solid transparent;margin-bottom:-2px;padding:12px 14px;font:600 .95rem inherit;color:var(--m);cursor:pointer}
+.tabs button[aria-selected=true]{color:var(--b2);border-color:var(--b2)}
+.card{background:#fff;border:1px solid var(--l);border-radius:14px;padding:18px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.panel[hidden]{display:none}
+.drop{display:block;border:2px dashed #cbd5e1;border-radius:12px;padding:28px 12px;text-align:center;cursor:pointer;background:#f8fafc;transition:.2s}
+.drop:hover,.drop.on{border-color:var(--b2);background:var(--bl)}
+.drop small{color:var(--m)}
+.btns{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:14px 0}
+button.p,a.p{display:inline-block;text-align:center;text-decoration:none;background:var(--b2);color:#fff;border:0;border-radius:10px;padding:12px 16px;font:600 .95rem inherit;cursor:pointer}
+button.p:hover,a.p:hover{background:var(--b)}
+button.p:disabled{opacity:.5;cursor:not-allowed}
+button.o{background:#fff;color:var(--b2);border:1.5px solid var(--b2);border-radius:10px;padding:11px 16px;font:600 .95rem inherit;cursor:pointer}
+select{padding:10px;border:1.5px solid var(--l);border-radius:10px;font:inherit;background:#fff;margin:8px 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:640px){.grid{grid-template-columns:1fr}}
+img.pv{max-width:100%;max-height:220px;display:block;margin:8px auto;border-radius:8px;border:1px solid var(--l);object-fit:contain}
+.stat{font-size:.9rem;color:var(--m)}.stat b{color:var(--t)}
+.size{display:inline-block;background:var(--bl);color:var(--b);font-weight:700;font-size:.85rem;padding:2px 9px;border-radius:99px}
+.ok{color:#047857}.err{color:#b91c1c}
+.thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;margin:14px 0}
+.th{border:1px solid var(--l);border-radius:8px;overflow:hidden;background:#fff;font-size:.75rem}
+.th img{width:100%;height:96px;object-fit:cover;display:block}
+.th .cap{padding:4px 6px;word-break:break-all;line-height:1.3}
+.th .ctl{display:flex;border-top:1px solid var(--l)}
+.th .ctl button{flex:1;border:0;background:#f8fafc;padding:6px 0;cursor:pointer;font-size:.95rem}
+.th .ctl button:hover{background:var(--bl)}
+.hide{display:none}
+section.how{margin:36px 0}
+section.how h2{color:var(--b)}
+footer{text-align:center;color:var(--m);font-size:.85rem;padding:22px 16px}
+</style>
+</head>
+<body>
+<header><div class="wrap"><span class="logo">FormFit</span><span class="badge">🔒 100% in-browser · No login · Works offline</span></div></header>
+
+<main class="wrap">
+<h1>FormFit: Free Online Student Utility Tools for Exam Forms</h1>
+<p class="sub">Resize photo to 20KB, compress signature to 50KB, merge images into one PDF and optimize PDFs for government and exam form uploads. Your files never leave your device.</p>
+
+<div class="tabs" role="tablist">
+<button role="tab" aria-selected="true" data-t="t1">1. Image Resizer</button>
+<button role="tab" aria-selected="false" data-t="t2">2. Image to PDF</button>
+<button role="tab" aria-selected="false" data-t="t3">3. PDF Compressor</button>
+</div>
+
+<!-- TAB 1 -->
+<div class="card panel" id="t1">
+<h2 style="margin-top:0">Photo &amp; Signature Resizer</h2>
+<label class="drop" id="d1">
+<input type="file" id="f1" accept="image/jpeg,image/png" class="hide">
+<strong>Tap to upload or drag &amp; drop</strong><br><small>JPG or PNG photo / signature</small>
+</label>
+<div id="w1" class="hide">
+<div class="grid" style="margin-top:14px">
+<div><div class="stat">Original: <span class="size" id="o1">–</span> · <span id="od">–</span></div><img class="pv" id="p1" alt="Original image preview"></div>
+<div><div class="stat">Compressed: <span class="size" id="c1">–</span> · <span id="cd">–</span></div><img class="pv" id="p2" alt="Compressed image preview"></div>
+</div>
+<div class="btns">
+<button class="p" data-k="20">Under 20KB</button>
+<button class="p" data-k="50">Under 50KB</button>
+<button class="p" data-k="100">Under 100KB</button>
+</div>
+<p id="m1" class="stat" role="status"></p>
+<a class="p hide" id="dl1" download>⬇ Download Image</a>
+</div>
+</div>
+
+<!-- TAB 2 -->
+<div class="card panel" id="t2" hidden>
+<h2 style="margin-top:0">Image to PDF Converter</h2>
+<label class="drop" id="d2">
+<input type="file" id="f2" accept="image/jpeg,image/png" multiple class="hide">
+<strong>Tap to upload multiple images</strong><br><small>Use ‹ › to change page order, × to remove</small>
+</label>
+<div class="thumbs" id="th2"></div>
+<p id="m2" class="stat" role="status"></p>
+<button class="p" id="b2" disabled>⬇ Download Combined PDF</button>
+<button class="o" id="x2">Clear</button>
+</div>
+
+<!-- TAB 3 -->
+<div class="card panel" id="t3" hidden>
+<h2 style="margin-top:0">PDF Compressor</h2>
+<label class="drop" id="d3">
+<input type="file" id="f3" accept="application/pdf" class="hide">
+<strong>Tap to upload a PDF</strong><br><small>Runs fully in your browser</small>
+</label>
+<div id="w3" class="hide" style="margin-top:14px">
+<p class="stat">File: <b id="n3">–</b> · Size: <span class="size" id="s3">–</span></p>
+<label class="stat" for="q3">Compression level</label><br>
+<select id="q3">
+<option value="0.7,1">Light (best quality)</option>
+<option value="0.5,0.8" selected>Medium (recommended)</option>
+<option value="0.35,0.6">Strong (smallest size)</option>
+</select><br>
+<button class="p" id="b3">Compress PDF</button>
+<p id="m3" class="stat" role="status"></p>
+<a class="p hide" id="dl3" download>⬇ Download Compressed PDF</a>
+</div>
+<p class="stat">Works best on PDFs made of JPEG photos (scans, mobile scanner apps, Image to PDF). Text-only PDFs are already small and may not shrink.</p>
+</div>
+
+<section class="how">
+<h2>How to Use FormFit</h2>
+<p>FormFit helps you <strong>easily resize your passport photo and signature to 20KB or 50KB for MP Online and other government job applications</strong>, SSC, UPSC, banking, railway and state exam forms. No registration is needed.</p>
+<h3>Resize photo to 20KB, 50KB or 100KB</h3>
+<p>Open the Image Resizer tab, upload your JPG or PNG, and tap <em>Under 20KB</em>, <em>Under 50KB</em> or <em>Under 100KB</em>. The photo compress for exam process runs instantly, and you can see the original and new size in KB or MB before you download.</p>
+<h3>Signature resizer</h3>
+<p>Scan or photograph your signature on white paper, upload it, and choose the size your exam form asks for. The signature resizer keeps the text sharp while reducing file size.</p>
+<h3>Image to PDF converter online</h3>
+<p>Upload certificates, marksheets or ID proofs in the Image to PDF tab, arrange the order, remove any you don't need, and download one combined PDF ready for upload.</p>
+<h3>Compress PDF</h3>
+<p>Use the PDF Compressor tab to reduce a PDF before uploading it to a government portal. Always check the size limit in your form's instructions.</p>
+<h3>Private and offline</h3>
+<p>FormFit works completely in your browser. Your photos and documents are never uploaded to any server, so the tool keeps working even with a weak connection once the page has loaded.</p>
+</section>
+</main>
+<footer>© FormFit – Free online student utility tools for exam forms.</footer>
+
+<script>
+const $=id=>document.getElementById(id);
+const fmt=n=>n>=1048576?(n/1048576).toFixed(2)+' MB':(n/1024).toFixed(1)+' KB';
+const wait=()=>new Promise(r=>setTimeout(r,30));
+
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x===b));
+  document.querySelectorAll('.panel').forEach(p=>p.hidden=p.id!==b.dataset.t);
+});
+function zone(id,cb){
+  const d=$(id),i=d.querySelector('input');
+  d.ondragover=e=>{e.preventDefault();d.classList.add('on')};
+  d.ondragleave=()=>d.classList.remove('on');
+  d.ondrop=e=>{e.preventDefault();d.classList.remove('on');cb([...e.dataTransfer.files])};
+  i.onchange=()=>{cb([...i.files]);i.value=''};
+}
+const loadBlob=b=>new Promise((res,rej)=>{
+  const i=new Image();i.onload=()=>res(i);i.onerror=()=>rej(new Error('Cannot read image'));
+  i.src=URL.createObjectURL(b);
+});
+function draw(img,scale){
+  const c=document.createElement('canvas');
+  c.width=Math.max(1,Math.round(img.naturalWidth*scale));
+  c.height=Math.max(1,Math.round(img.naturalHeight*scale));
+  const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);
+  x.drawImage(img,0,0,c.width,c.height);return c;
+}
+const toBlob=(c,q)=>new Promise(r=>c.toBlob(r,'image/jpeg',q));
+const isImg=f=>/^image\/(jpeg|png)$/.test(f.type);
+
+// ---------- TAB 1 ----------
+let img1=null,url1=null,name1='image',size1=0;
+zone('d1',async fs=>{
+  const f=fs.find(isImg);
+  if(!f){alert('Please select a JPG or PNG image.');return}
+  try{img1=await loadBlob(f)}catch(e){alert(e.message);return}
+  name1=f.name.replace(/\.[^.]+$/,'');size1=f.size;
+  $('w1').classList.remove('hide');$('dl1').classList.add('hide');$('m1').textContent='';
+  $('p1').src=img1.src;$('o1').textContent=fmt(f.size);
+  $('od').textContent=img1.naturalWidth+'×'+img1.naturalHeight+' px';
+  $('p2').removeAttribute('src');$('c1').textContent='–';$('cd').textContent='–';
+});
+document.querySelectorAll('[data-k]').forEach(b=>b.onclick=async()=>{
+  if(!img1)return;
+  const target=b.dataset.k*1024,m=$('m1');
+  m.className='stat';m.textContent='Compressing…';await wait();
+  const s0=Math.min(1,1600/Math.max(img1.naturalWidth,img1.naturalHeight));let best=null;
+  for(const f of [1,.85,.7,.55,.42,.32,.24,.16,.1]){
+    const c=draw(img1,s0*f);let lo=.05,hi=.95,found=null;
+    for(let i=0;i<7;i++){
+      const q=(lo+hi)/2,bl=await toBlob(c,q);
+      if(bl.size<=target){found={bl,c};lo=q}else hi=q;
+    }
+    if(!found){const bl=await toBlob(c,.05);if(bl.size<=target)found={bl,c}}
+    if(found){best=found;break}
+  }
+  if(!best){m.className='stat err';m.textContent='Could not reach that size. Try a larger target.';return}
+  if(url1)URL.revokeObjectURL(url1);
+  url1=URL.createObjectURL(best.bl);
+  $('p2').src=url1;$('c1').textContent=fmt(best.bl.size);
+  $('cd').textContent=best.c.width+'×'+best.c.height+' px';
+  const a=$('dl1');a.href=url1;a.download=`${name1}_${b.dataset.k}kb.jpg`;a.classList.remove('hide');
+  m.className='stat ok';m.textContent=`✔ Done. ${fmt(size1)} → ${fmt(best.bl.size)} (under ${b.dataset.k}KB).`;
+});
+
+// ---------- TAB 2 ----------
+function buildPdf(pages){
+  const enc=new TextEncoder(),parts=[],offs=[];let len=0;
+  const push=d=>{const b=typeof d==='string'?enc.encode(d):d;parts.push(b);len+=b.length};
+  const obj=(id,s)=>{offs[id]=len;push(id+' 0 obj\n'+s+'\nendobj\n')};
+  push('%PDF-1.4\n');
+  obj(1,'<</Type/Catalog/Pages 2 0 R>>');
+  obj(2,`<</Type/Pages/Count ${pages.length}/Kids[${pages.map((_,i)=>(3+3*i)+' 0 R').join(' ')}]>>`);
+  pages.forEach((p,i)=>{
+    const id=3+3*i,land=p.w>p.h,PW=land?842:595,PH=land?595:842,M=24;
+    const r=Math.min((PW-2*M)/p.w,(PH-2*M)/p.h),w=p.w*r,h=p.h*r,x=(PW-w)/2,y=(PH-h)/2;
+    obj(id,`<</Type/Page/Parent 2 0 R/MediaBox[0 0 ${PW} ${PH}]/Resources<</XObject<</I ${id+2} 0 R>>>>/Contents ${id+1} 0 R>>`);
+    const cs=`q ${w.toFixed(2)} 0 0 ${h.toFixed(2)} ${x.toFixed(2)} ${y.toFixed(2)} cm /I Do Q`;
+    obj(id+1,`<</Length ${cs.length}>>\nstream\n${cs}\nendstream`);
+    offs[id+2]=len;
+    push(`${id+2} 0 obj\n<</Type/XObject/Subtype/Image/Width ${p.w}/Height ${p.h}/ColorSpace/DeviceRGB/BitsPerComponent 8/Filter/DCTDecode/Length ${p.bytes.length}>>\nstream\n`);
+    push(p.bytes);push('\nendstream\nendobj\n');
+  });
+  const n=3+3*pages.length,x=len;
+  push(`xref\n0 ${n}\n0000000000 65535 f \n`);
+  for(let i=1;i<n;i++)push(String(offs[i]).padStart(10,'0')+' 00000 n \n');
+  push(`trailer\n<</Size ${n}/Root 1 0 R>>\nstartxref\n${x}\n%%EOF`);
+  return new Blob(parts,{type:'application/pdf'});
+}
+let list2=[];
+function render2(){
+  const t=$('th2');t.innerHTML='';
+  list2.forEach((it,i)=>{
+    const d=document.createElement('div');d.className='th';
+    d.innerHTML=`<img src="${it.img.src}" alt="Page ${i+1}"><div class="cap">${i+1}. ${it.name.replace(/[<>&"]/g,'')}<br><b>${fmt(it.size)}</b></div><div class="ctl"><button aria-label="Move left">‹</button><button aria-label="Remove">×</button><button aria-label="Move right">›</button></div>`;
+    const [l,x,r]=d.querySelectorAll('button');
+    l.onclick=()=>{if(i>0){[list2[i-1],list2[i]]=[list2[i],list2[i-1]];render2()}};
+    r.onclick=()=>{if(i<list2.length-1){[list2[i+1],list2[i]]=[list2[i],list2[i+1]];render2()}};
+    x.onclick=()=>{list2.splice(i,1);render2()};
+    t.appendChild(d);
+  });
+  $('b2').disabled=!list2.length;
+  const tot=list2.reduce((a,b)=>a+b.size,0);
+  $('m2').className='stat';
+  $('m2').innerHTML=list2.length?`${list2.length} image(s) · Total input size: <span class="size">${fmt(tot)}</span>`:'';
+}
+zone('d2',async fs=>{
+  for(const f of fs.filter(isImg)){
+    try{list2.push({img:await loadBlob(f),name:f.name,size:f.size})}catch(e){}
+  }
+  render2();
+});
+$('x2').onclick=()=>{list2=[];render2()};
+$('b2').onclick=async()=>{
+  const m=$('m2');m.textContent='Building PDF…';await wait();
+  const pages=[];
+  for(const it of list2){
+    const s=Math.min(1,1800/Math.max(it.img.naturalWidth,it.img.naturalHeight));
+    const c=draw(it.img,s),bl=await toBlob(c,.85);
+    pages.push({w:c.width,h:c.height,bytes:new Uint8Array(await bl.arrayBuffer())});
+  }
+  const pdf=buildPdf(pages),a=document.createElement('a');
+  a.href=URL.createObjectURL(pdf);a.download='formfit_document.pdf';a.click();
+  m.className='stat ok';m.textContent=`✔ PDF downloaded (${fmt(pdf.size)}).`;
+};
+
+// ---------- TAB 3 ----------
+const bin=u=>{let s='';for(let i=0;i<u.length;i+=8192)s+=String.fromCharCode.apply(null,u.subarray(i,i+8192));return s};
+const unbin=s=>{const o=new Uint8Array(s.length);for(let i=0;i<s.length;i++)o[i]=s.charCodeAt(i);return o};
+let pdf3=null;
+zone('d3',fs=>{
+  const f=fs[0];
+  if(!f||f.type!=='application/pdf'){alert('Please select a PDF file.');return}
+  pdf3=f;$('n3').textContent=f.name;$('s3').textContent=fmt(f.size);
+  $('w3').classList.remove('hide');$('dl3').classList.add('hide');$('m3').textContent='';
+});
+// Step 1: safe cleanup. Add more text-level passes here (each takes/returns a latin1 string).
+const passes=[s=>{const i=s.lastIndexOf('%%EOF');return i>0?s.slice(0,i+5)+'\n':s}];
+
+// Step 2: re-compress embedded JPEG (DCTDecode, DeviceRGB) images, then rebuild the xref table.
+async function recompress(s,q,sc,say){
+  if(/\/Type\s*\/XRef|\/ObjStm|\/Encrypt/.test(s))return null;
+  const re=/(\d+) (\d+) obj\s*(<<(?:(?!endobj)[\s\S])*?>>)\s*stream\r?\n/g;
+  const ms=[...s.matchAll(re)];let out='',last=0,n=0,done=0;
+  for(const m of ms){
+    const d=m[3];
+    if(!/\/Subtype\s*\/Image/.test(d)||!/\/Filter\s*\/DCTDecode/.test(d)||!/\/ColorSpace\s*\/DeviceRGB/.test(d)||!/\/Length\s+\d+(?=\s*(\/|>>))/.test(d))continue;
+    n++;say(`Compressing image ${n}…`);await wait();
+    const st=m.index+m[0].length,en=s.indexOf('endstream',st);
+    if(en<0||st<last)continue;
+    const data=s.slice(st,en).replace(/\r?\n$/,'');
+    try{
+      const img=await loadBlob(new Blob([unbin(data)],{type:'image/jpeg'}));
+      const c=draw(img,sc),bl=await toBlob(c,q),nb=bin(new Uint8Array(await bl.arrayBuffer()));
+      if(nb.length>=data.length)continue;
+      const nd=d.replace(/\/Width\s+\d+/,'/Width '+c.width).replace(/\/Height\s+\d+/,'/Height '+c.height)
+        .replace(/\/Length\s+\d+(?=\s*(\/|>>))/,'/Length '+nb.length);
+      out+=s.slice(last,m.index)+`${m[1]} ${m[2]} obj\n${nd}\nstream\n`+nb+'\n';last=en;done++;
+    }catch(e){}
+  }
+  if(!done)return {s,done:0};
+  out+=s.slice(last);
+  const offs={},r2=/(^|[\r\n])(\d+) \d+ obj\b/g;let k,max=0;
+  while(k=r2.exec(out)){const id=+k[2];offs[id]=k.index+k[1].length;max=Math.max(max,id)}
+  const root=[...s.matchAll(/\/Root\s+(\d+ \d+ R)/g)].pop();
+  if(!root)return null;
+  const info=[...s.matchAll(/\/Info\s+(\d+ \d+ R)/g)].pop();
+  const xp=out.length;let x=`xref\n0 ${max+1}\n0000000000 65535 f \n`;
+  for(let i=1;i<=max;i++)x+=offs[i]!=null?String(offs[i]).padStart(10,'0')+' 00000 n \n':'0000000000 65535 f \n';
+  x+=`trailer\n<</Size ${max+1}/Root ${root[1]}${info?'/Info '+info[1]:''}>>\nstartxref\n${xp}\n%%EOF\n`;
+  return {s:out+x,done};
+}
+$('b3').onclick=async()=>{
+  const m=$('m3'),[q,sc]=$('q3').value.split(',').map(Number);
+  m.className='stat';m.textContent='Reading PDF…';await wait();
+  let s=bin(new Uint8Array(await pdf3.arrayBuffer()));
+  for(const p of passes)s=p(s);
+  let note='';
+  try{
+    const r=await recompress(s,q,sc,t=>m.textContent=t);
+    if(r===null)note=' (This PDF type can\'t be deeply compressed here; only safe cleanup applied.)';
+    else if(!r.done)note=' (No compressible JPEG images found in this PDF.)';
+    else{s=r.s;note=` (${r.done} image(s) recompressed.)`}
+  }catch(e){note=' (Deep compression failed; safe cleanup only.)'}
+  const bl=new Blob([unbin(s)],{type:'application/pdf'}),a=$('dl3'),saved=pdf3.size-bl.size;
+  if(saved>0){
+    a.href=URL.createObjectURL(bl);a.download='compressed_'+pdf3.name;a.classList.remove('hide');
+    m.className='stat ok';m.textContent=`✔ ${fmt(pdf3.size)} → ${fmt(bl.size)} (saved ${fmt(saved)}).${note}`;
+  }else{
+    a.classList.add('hide');m.className='stat';m.textContent='No safe size reduction possible for this file.'+note;
+  }
+};
+
+// ---------- PWA ----------
+if('serviceWorker' in navigator&&location.protocol.startsWith('http')){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://rohitwebcraft.github.io/resize-photo-20kb/sitemap.xml

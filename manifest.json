@@ -1,0 +1,14 @@
+{
+  "name": "FormFit - Photo Resizer & PDF Tools for Exam Forms",
+  "short_name": "FormFit",
+  "description": "Resize photo and signature to 20KB, 50KB or 100KB, convert images to PDF and compress PDFs. Works offline.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1d4ed8",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}
