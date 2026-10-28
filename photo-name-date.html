@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Add Name & Date to Photo Online | FormFit</title>
+<meta name="description" content="Add your name and date below your photo for exam forms. Free, no login, works in your browser. Optional size limit in KB or MB.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://rohitwebcraft.github.io/resize-photo-20kb/photo-name-date.html">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icon-192.png">
+<meta name="theme-color" content="#1d4ed8">
+</head>
+<body>
+<header><div class="wrap"><a class="logo" href="./">FormFit</a><nav class="nav"><a href="./">Tools</a><a href="photo-name-date.html">Name &amp; Date</a><a href="photo-signature-join.html">Photo + Signature</a><a href="about.html">About</a></nav></div></header>
+<main class="wrap page">
+<h1>Add Name and Date to Photo Online for Exam Forms</h1>
+<p class="stat">Many exam and government job forms ask for a passport photo with your name and date written below it. Upload your photo, type your name, pick the date and download. Free, no login, and your photo never leaves your device.</p>
+<div class="card">
+<label class="drop" id="d1"><input type="file" id="f1" accept="image/jpeg,image/png" class="hide"><strong>Tap to upload your photo</strong><br><small>JPG or PNG</small></label>
+<p class="stat" id="fi"></p>
+<div class="row"><label>Name<input type="text" id="nm" maxlength="40" placeholder="e.g. RAHUL KUMAR"></label><label>Date<input type="date" id="dt"></label></div>
+<div class="row"><label>Max size (optional)<input type="number" id="ck" min="1" step="any" placeholder="e.g. 50"></label><select id="cu" aria-label="Unit"><option>KB</option><option>MB</option></select></div>
+<button class="p" id="go">Create photo with name &amp; date</button>
+<p id="msg" class="stat" role="status"></p>
+<img class="pv hide" id="pv" alt="Result preview"><a class="p hide" id="dl" download>⬇ Download Image</a>
+</div>
+<section class="how"><h2>How to add name and date to your photo</h2>
+<p>Upload your passport size photo, enter your name exactly as on your application, choose the date and tap the button. FormFit adds a white strip with your name and date below the photo. If your form has a size limit, type it in KB or MB (for example 50 KB) and the image is compressed to fit. Need only a smaller file? Use the <a href="./">photo resizer to 20KB, 50KB or 100KB</a>. To submit a photo and signature together, try <a href="photo-signature-join.html">join photo and signature</a>.</p></section>
+</main>
+<footer class="foot"><div class="wrap fg">
+<div><strong>Tools</strong><a href="./">Photo Resizer (20KB / 50KB / 100KB)</a><a href="./">Image to PDF</a><a href="./">PDF Compressor</a><a href="photo-name-date.html">Add Name &amp; Date to Photo</a><a href="photo-signature-join.html">Join Photo &amp; Signature</a></div>
+<div><strong>About</strong><a href="about.html">About FormFit</a><a href="contact.html">Contact Us</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Use</a></div>
+<div><strong>Private by design</strong><p>All tools run inside your browser. Your photos and documents are never uploaded to any server.</p></div>
+</div><p class="copy">© 2026 FormFit · Free online student utility tools</p></footer>
+<script src="common.js"></script>
+<script>
+let ph=null,nm='photo';
+zone('d1',async fs=>{
+  const f=fs.find(isImg);if(!f){say('Please select a JPG or PNG image.','err');return}
+  try{ph=await loadBlob(f)}catch(e){say(e.message,'err');return}
+  nm=f.name.replace(/\.[^.]+$/,'');
+  $('fi').innerHTML=f.name+' · <span class="size">'+fmt(f.size)+'</span> · '+ph.naturalWidth+'×'+ph.naturalHeight+' px';
+});
+$('dt').valueAsDate=new Date();
+$('go').onclick=async()=>{
+  if(!ph){say('Upload a photo first.','err');return}
+  const name=$('nm').value.trim(),d=$('dt').value?$('dt').value.split('-').reverse().join('/'):'';
+  const lines=[name,d].filter(Boolean);
+  if(!lines.length){say('Enter a name or a date.','err');return}
+  const k=Math.min(1,800/Math.max(ph.naturalWidth,ph.naturalHeight));
+  const W=Math.round(ph.naturalWidth*k),H=Math.round(ph.naturalHeight*k),S=Math.max(40,Math.round(H*.2));
+  const [c,x]=blank(W,H+S);x.drawImage(ph,0,0,W,H);
+  let fs=Math.round(S/(lines.length+.7));x.font='bold '+fs+'px Arial,sans-serif';
+  while(fs>8&&Math.max(...lines.map(t=>x.measureText(t).width))>W*.94){fs--;x.font='bold '+fs+'px Arial,sans-serif'}
+  x.fillStyle='#000';x.textAlign='center';x.textBaseline='middle';
+  lines.forEach((t,i)=>x.fillText(t,W/2,H+S*(i+.5)/lines.length));
+  await output(c,nm+'_name_date.jpg');
+};
+</script>
+</body>
+</html>

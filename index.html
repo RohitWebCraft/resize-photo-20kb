@@ -20,62 +20,12 @@
 <meta property="og:image" content="https://rohitwebcraft.github.io/resize-photo-20kb/icon-512.png">
 <meta name="twitter:card" content="summary">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"FormFit","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"INR"}}</script>
-<style>
-:root{--b:#1d4ed8;--b2:#2563eb;--bl:#eff6ff;--t:#0f172a;--m:#64748b;--l:#e2e8f0}
-*{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:#f8fafc;color:var(--t);line-height:1.6}
-header{background:linear-gradient(90deg,#1e3a8a,#1d4ed8);color:#fff;padding:14px 16px}
-.wrap{max-width:900px;margin:0 auto;padding:0 16px}
-header .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;padding:0}
-.logo{font-size:1.5rem;font-weight:800}.badge{font-size:.78rem;background:rgba(255,255,255,.15);padding:4px 10px;border-radius:99px}
-h1{font-size:clamp(1.4rem,4.5vw,2.2rem);text-align:center;margin:28px 0 8px;line-height:1.25}
-.sub{text-align:center;color:var(--m);max-width:620px;margin:0 auto 22px}
-.tabs{display:flex;gap:6px;overflow-x:auto;border-bottom:2px solid var(--l);margin-bottom:18px}
-.tabs button{flex:1;white-space:nowrap;background:none;border:0;border-bottom:3px solid transparent;margin-bottom:-2px;padding:12px 14px;font:600 .95rem inherit;color:var(--m);cursor:pointer}
-.tabs button[aria-selected=true]{color:var(--b2);border-color:var(--b2)}
-.card{background:#fff;border:1px solid var(--l);border-radius:14px;padding:18px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
-.panel[hidden]{display:none}
-.drop{display:block;border:2px dashed #cbd5e1;border-radius:12px;padding:28px 12px;text-align:center;cursor:pointer;background:#f8fafc;transition:.2s}
-.drop:hover,.drop.on{border-color:var(--b2);background:var(--bl)}
-.drop small{color:var(--m)}
-.btns{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:14px 0}
-button.p,a.p{display:inline-block;text-align:center;text-decoration:none;background:var(--b2);color:#fff;border:0;border-radius:10px;padding:12px 16px;font:600 .95rem inherit;cursor:pointer}
-button.p:hover,a.p:hover{background:var(--b)}
-button.p:disabled{opacity:.5;cursor:not-allowed}
-button.o{background:#fff;color:var(--b2);border:1.5px solid var(--b2);border-radius:10px;padding:11px 16px;font:600 .95rem inherit;cursor:pointer}
-select{padding:10px;border:1.5px solid var(--l);border-radius:10px;font:inherit;background:#fff;margin:8px 0}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:640px){.grid{grid-template-columns:1fr}}
-img.pv{max-width:100%;max-height:220px;display:block;margin:8px auto;border-radius:8px;border:1px solid var(--l);object-fit:contain}
-.stat{font-size:.9rem;color:var(--m)}.stat b{color:var(--t)}
-.size{display:inline-block;background:var(--bl);color:var(--b);font-weight:700;font-size:.85rem;padding:2px 9px;border-radius:99px}
-.ok{color:#047857}.err{color:#b91c1c}
-.thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;margin:14px 0}
-.th{border:1px solid var(--l);border-radius:8px;overflow:hidden;background:#fff;font-size:.75rem}
-.th img{width:100%;height:96px;object-fit:cover;display:block}
-.th .cap{padding:4px 6px;word-break:break-all;line-height:1.3}
-.th .ctl{display:flex;border-top:1px solid var(--l)}
-.th .ctl button{flex:1;border:0;background:#f8fafc;padding:6px 0;cursor:pointer;font-size:.95rem}
-.th .ctl button:hover{background:var(--bl)}
-.row{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;margin:8px 0}
-.row label{font-size:.85rem;color:var(--m)}
-input[type=number]{display:block;padding:10px;border:1.5px solid var(--l);border-radius:10px;font:inherit;width:130px;margin-top:2px}
-.sh{font-size:1rem;margin:18px 0 4px;color:var(--b)}
-.chk{display:block;margin:6px 0 10px;font-size:.9rem}
-.hide{display:none}
-section.how{margin:36px 0}
-section.how h2{color:var(--b)}
-footer{text-align:center;color:var(--m);font-size:.85rem;padding:22px 16px}
-details{background:#fff;border:1px solid var(--l);border-radius:10px;margin:8px 0;padding:0 14px}
-summary{cursor:pointer;font-weight:600;padding:12px 0}
-details[open] summary{color:var(--b2)}
-details p{margin:0 0 12px;color:#334155}
-</style>
+<link rel="stylesheet" href="style.css">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How do I resize a photo to 20KB online?", "acceptedAnswer": {"@type": "Answer", "text": "Open the Image Resizer tab, upload your JPG or PNG photo and tap “Under 20KB”. FormFit lowers the quality and, if needed, the dimensions until the file is below 20KB. Then tap Download. No login or app is needed."}}, {"@type": "Question", "name": "How can I compress my signature to 50KB for an exam form?", "acceptedAnswer": {"@type": "Answer", "text": "Scan or photograph your signature on plain white paper, upload it in the Image Resizer and tap “Under 50KB”. If your form asks for a different limit, type your own size in KB or MB in the Custom size box."}}, {"@type": "Question", "name": "What photo and signature size do government exam forms need?", "acceptedAnswer": {"@type": "Answer", "text": "Every recruitment form has its own rules for file size, width, height and format. Always read the notification or the upload instructions on your form, then set the same limits in FormFit, for example 20KB, 50KB or 100KB."}}, {"@type": "Question", "name": "Can I set an exact width and height in pixels?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Use the Width and Height boxes in the Image Resizer. Keep “Keep aspect ratio” ticked to avoid stretching the photo, or untick it to set both values freely. You can also tap “Resize only” to change the dimensions without any KB limit."}}, {"@type": "Question", "name": "Are my photos and documents uploaded to a server?", "acceptedAnswer": {"@type": "Answer", "text": "No. FormFit works completely inside your browser. Your photos, signatures and PDFs stay on your phone or computer and are never sent to any server."}}, {"@type": "Question", "name": "How do I convert multiple images into one PDF?", "acceptedAnswer": {"@type": "Answer", "text": "Open the Image to PDF tab, select all your images, arrange the page order with the arrow buttons, remove any you do not need, and tap “Download Combined PDF”. Each image becomes one page."}}, {"@type": "Question", "name": "Why does my PDF not get smaller in the PDF Compressor?", "acceptedAnswer": {"@type": "Answer", "text": "The compressor shrinks the JPEG images inside a PDF, so it works best on scanned or photo-based PDFs. Text-only PDFs are already small, and some PDF types (for example password-protected files) cannot be compressed in the browser."}}, {"@type": "Question", "name": "Can I use FormFit offline or on my mobile phone?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The site is mobile friendly and all tools run in your browser. After you open it once, it can also work without internet, and you can add it to your home screen like an app."}}, {"@type": "Question", "name": "Is FormFit free? Do I need to register?", "acceptedAnswer": {"@type": "Answer", "text": "FormFit is free to use. There is no login, no registration and no watermark."}}, {"@type": "Question", "name": "Which image format do I get after resizing?", "acceptedAnswer": {"@type": "Answer", "text": "Resized images are saved as JPG, which is the format most exam and government portals accept. PNG photos are converted to JPG automatically."}}]}</script>
 
 </head>
 <body>
-<header><div class="wrap"><span class="logo">FormFit</span><span class="badge">🔒 100% in-browser · No login · Works offline</span></div></header>
+<header><div class="wrap"><a class="logo" href="./">FormFit</a><nav class="nav"><a href="./">Tools</a><a href="photo-name-date.html">Name &amp; Date</a><a href="photo-signature-join.html">Photo + Signature</a><a href="about.html">About</a></nav></div></header>
 
 <main class="wrap">
 <h1>FormFit: Free Online Student Utility Tools for Exam Forms</h1>
@@ -191,8 +141,16 @@ details p{margin:0 0 12px;color:#334155}
 <details><summary>Is FormFit free? Do I need to register?</summary><p>FormFit is free to use. There is no login, no registration and no watermark.</p></details>
 <details><summary>Which image format do I get after resizing?</summary><p>Resized images are saved as JPG, which is the format most exam and government portals accept. PNG photos are converted to JPG automatically.</p></details>
 </section>
+<section class="how"><h2>More Free Exam Form Tools</h2><div class="cards">
+<a href="photo-name-date.html"><b>Add Name &amp; Date to Photo</b><span>Add the name and date strip many exam forms ask for below your photo.</span></a>
+<a href="photo-signature-join.html"><b>Join Photo &amp; Signature</b><span>Combine your photo and signature into one image, with a size limit if needed.</span></a>
+</div></section>
 </main>
-<footer>© FormFit – Free online student utility tools for exam forms.</footer>
+<footer class="foot"><div class="wrap fg">
+<div><strong>Tools</strong><a href="./">Photo Resizer (20KB / 50KB / 100KB)</a><a href="./">Image to PDF</a><a href="./">PDF Compressor</a><a href="photo-name-date.html">Add Name &amp; Date to Photo</a><a href="photo-signature-join.html">Join Photo &amp; Signature</a></div>
+<div><strong>About</strong><a href="about.html">About FormFit</a><a href="contact.html">Contact Us</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Use</a></div>
+<div><strong>Private by design</strong><p>All tools run inside your browser. Your photos and documents are never uploaded to any server.</p></div>
+</div><p class="copy">© 2026 FormFit · Free online student utility tools</p></footer>
 
 <script>
 const $=id=>document.getElementById(id);

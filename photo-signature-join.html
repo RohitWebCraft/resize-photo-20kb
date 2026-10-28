@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Combine Photo and Signature in One Image | FormFit</title>
+<meta name="description" content="Join your passport photo and signature into one image for exam forms. Free online tool, no login, files stay on your device.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://rohitwebcraft.github.io/resize-photo-20kb/photo-signature-join.html">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icon-192.png">
+<meta name="theme-color" content="#1d4ed8">
+</head>
+<body>
+<header><div class="wrap"><a class="logo" href="./">FormFit</a><nav class="nav"><a href="./">Tools</a><a href="photo-name-date.html">Name &amp; Date</a><a href="photo-signature-join.html">Photo + Signature</a><a href="about.html">About</a></nav></div></header>
+<main class="wrap page">
+<h1>Join Photo and Signature into One Image Online</h1>
+<p class="stat">Some exam and government job forms want your photo and signature together in a single image. Upload both, choose the layout and download. Free, no login, and nothing is uploaded to a server.</p>
+<div class="card">
+<div class="grid">
+<div><label class="drop" id="d1"><input type="file" id="f1" accept="image/jpeg,image/png" class="hide"><strong>Upload photo</strong><br><small>JPG or PNG</small></label><p class="stat" id="i1"></p></div>
+<div><label class="drop" id="d2"><input type="file" id="f2" accept="image/jpeg,image/png" class="hide"><strong>Upload signature</strong><br><small>JPG or PNG</small></label><p class="stat" id="i2"></p></div>
+</div>
+<div class="row"><label>Layout<select id="ly"><option value="stack">Photo on top, signature below</option><option value="side">Photo and signature side by side</option></select></label></div>
+<div class="row"><label>Max size (optional)<input type="number" id="ck" min="1" step="any" placeholder="e.g. 50"></label><select id="cu" aria-label="Unit"><option>KB</option><option>MB</option></select></div>
+<button class="p" id="go">Join into one image</button>
+<p id="msg" class="stat" role="status"></p>
+<img class="pv hide" id="pv" alt="Result preview"><a class="p hide" id="dl" download>⬇ Download Image</a>
+</div>
+<section class="how"><h2>How to combine photo and signature</h2>
+<p>Upload your photo and your signature, pick stacked or side-by-side layout, and tap the button. Both pictures are placed on a clean white background. Add a maximum size in KB or MB if your form has a limit. If the form needs them as separate files, use the <a href="./">photo and signature resizer to 20KB or 50KB</a> instead. To add your name and date under the photo, see <a href="photo-name-date.html">add name and date to photo</a>.</p></section>
+</main>
+<footer class="foot"><div class="wrap fg">
+<div><strong>Tools</strong><a href="./">Photo Resizer (20KB / 50KB / 100KB)</a><a href="./">Image to PDF</a><a href="./">PDF Compressor</a><a href="photo-name-date.html">Add Name &amp; Date to Photo</a><a href="photo-signature-join.html">Join Photo &amp; Signature</a></div>
+<div><strong>About</strong><a href="about.html">About FormFit</a><a href="contact.html">Contact Us</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Use</a></div>
+<div><strong>Private by design</strong><p>All tools run inside your browser. Your photos and documents are never uploaded to any server.</p></div>
+</div><p class="copy">© 2026 FormFit · Free online student utility tools</p></footer>
+<script src="common.js"></script>
+<script>
+let A=null,B=null;
+const info=(id,f,i)=>$(id).innerHTML=f.name+' · <span class="size">'+fmt(f.size)+'</span> · '+i.naturalWidth+'×'+i.naturalHeight+' px';
+async function pick(fs,id,set){
+  const f=fs.find(isImg);if(!f){say('Please select a JPG or PNG image.','err');return}
+  try{const i=await loadBlob(f);set(i);info(id,f,i)}catch(e){say(e.message,'err')}
+}
+zone('d1',fs=>pick(fs,'i1',i=>A=i));
+zone('d2',fs=>pick(fs,'i2',i=>B=i));
+$('go').onclick=async()=>{
+  if(!A||!B){say('Upload both the photo and the signature.','err');return}
+  const gap=12;let c,x;
+  if($('ly').value==='side'){
+    const H=400,w1=Math.round(A.naturalWidth*H/A.naturalHeight),w2=Math.round(B.naturalWidth*H/B.naturalHeight);
+    [c,x]=blank(w1+gap+w2,H);x.drawImage(A,0,0,w1,H);x.drawImage(B,w1+gap,0,w2,H);
+  }else{
+    const W=500,h1=Math.round(A.naturalHeight*W/A.naturalWidth),h2=Math.round(B.naturalHeight*W/B.naturalWidth);
+    [c,x]=blank(W,h1+gap+h2);x.drawImage(A,0,0,W,h1);x.drawImage(B,0,h1+gap,W,h2);
+  }
+  await output(c,'photo_signature.jpg');
+};
+</script>
+</body>
+</html>
