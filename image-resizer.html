@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resize Photo & Signature to 20KB, 50KB, 100KB | FormFit</title>
+<meta name="description" content="Resize photo and signature to 20KB, 50KB or 100KB, or set your own width, height and min-max size. Free, no login, works in your browser.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://rohitwebcraft.github.io/resize-photo-20kb/image-resizer.html">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icon-192.png">
+<meta name="theme-color" content="#1d4ed8">
+</head>
+<body>
+<header><div class="wrap"><a class="logo" href="./">FormFit</a><nav class="nav"><a href="./">Tools</a><a href="photo-name-date.html">Name &amp; Date</a><a href="photo-signature-join.html">Photo + Signature</a><a href="about.html">About</a></nav></div></header>
+<main class="wrap page">
+<h1>Photo and Signature Resizer: Compress Image to 20KB, 50KB or 100KB</h1>
+<p class="stat">Upload your JPG or PNG, set the size your exam form asks for and download. Your photo never leaves your device.</p>
+<div class="card" id="t1">
+<h2 style="margin-top:0">Photo &amp; Signature Resizer</h2>
+<label class="drop" id="d1">
+<input type="file" id="f1" accept="image/jpeg,image/png" class="hide">
+<strong>Tap to upload or drag &amp; drop</strong><br><small>JPG or PNG photo / signature</small>
+</label>
+<div id="w1" class="hide">
+<div class="grid" style="margin-top:14px">
+<div><div class="stat">Original: <span class="size" id="o1">–</span> · <span id="od">–</span></div><img class="pv zoomable" id="p1" alt="Original image preview"></div>
+<div><div class="stat">Compressed: <span class="size" id="c1">–</span> · <span id="cd">–</span></div><img class="pv zoomable" id="p2" alt="Compressed image preview"></div>
+</div>
+<p class="stat">🔍 Tap a preview to zoom in and check quality and pixels.</p>
+<h3 class="sh">1. Dimensions (optional)</h3>
+<div class="row">
+<label>Width (px)<input type="number" id="wi" min="1" max="8000"></label>
+<span>×</span>
+<label>Height (px)<input type="number" id="hi" min="1" max="8000"></label>
+</div>
+<label class="chk"><input type="checkbox" id="lk" checked> Keep aspect ratio (height/width adjust automatically)</label>
+<button class="o" id="rs" type="button">Reset to original</button>
+<button class="o" id="ro" type="button">Resize only (no KB limit)</button>
+<h3 class="sh">2. Target file size</h3>
+<div class="btns">
+<button class="p" data-k="20">Under 20KB</button>
+<button class="p" data-k="50">Under 50KB</button>
+<button class="p" data-k="100">Under 100KB</button>
+</div>
+<div class="row">
+<label>Min size (optional)<input type="number" id="mn" min="0" step="any" placeholder="e.g. 20"></label>
+<label>Max size<input type="number" id="ck" min="1" step="any" placeholder="e.g. 50"></label>
+<select id="cu" aria-label="Unit"><option>KB</option><option>MB</option></select>
+<button class="p" id="cb" type="button">Compress to this size range</button>
+</div>
+<p id="m1" class="stat" role="status"></p>
+<a class="p hide" id="dl1" download>⬇ Download Image</a>
+</div>
+</div>
+<section class="how"><h2>How to use</h2><p>Upload your image, optionally set exact width and height in pixels (keep the aspect ratio ticked to avoid stretching), then choose a ready size or type your own minimum and maximum size in KB or MB. Zoom into the preview to check quality. Need cm or inches? Use the <a href="size-converter.html">cm to pixels converter</a>, and verify the final file with the <a href="file-checker.html">form file checker</a>.</p></section>
+</main>
+<footer class="foot"><div class="wrap fg">
+<div><strong>Tools</strong><a href="image-resizer.html">Photo &amp; Signature Resizer</a><a href="image-to-pdf.html">Image to PDF</a><a href="pdf-compressor.html">PDF Compressor</a><a href="photo-name-date.html">Add Name &amp; Date to Photo</a><a href="photo-signature-join.html">Join Photo &amp; Signature</a><a href="image-converter.html">PNG / JPG / WebP Converter</a><a href="size-converter.html">cm / mm / inch to Pixels</a><a href="file-checker.html">Form File Checker</a></div>
+<div><strong>About</strong><a href="about.html">About FormFit</a><a href="contact.html">Contact Us</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Use</a></div>
+<div><strong>Our Other Projects</strong><a href="https://rohitwebcraft.github.io/Rohit-Sir-English-Quest/" rel="noopener">Rohit Sir English Quest</a><a href="https://rohitwebcraft.github.io/MFE-QUIZZ-FEA/" rel="noopener">MFE Quizz</a><a href="https://rohitwebcraft.github.io/rohit-sir-english-quiz/" rel="noopener">Rohit Sir English Quiz</a><a href="https://rohitwebcraft.github.io/Rohit_Portfolio-/" rel="noopener">Rohit Sir Portfolio</a></div>
+<div><strong>Private by design</strong><p>All tools run inside your browser. Your photos and documents are never uploaded to any server.</p></div>
+<div><strong>More from Rohit WebCraft</strong><a href="https://rohitwebcraft.github.io/Rohit-Sir-English-Quest/" target="_blank" rel="noopener">Rohit Sir English Quest</a><a href="https://rohitwebcraft.github.io/rohit-sir-english-quiz/" target="_blank" rel="noopener">Rohit Sir English Quiz</a><a href="https://rohitwebcraft.github.io/MFE-QUIZZ-FEA/" target="_blank" rel="noopener">MFE Quiz FEA</a><a href="https://rohitwebcraft.github.io/Rohit_Portfolio-/" target="_blank" rel="noopener">Rohit Portfolio</a></div>
+</div><p class="copy">© 2026 FormFit · Free online student utility tools</p></footer>
+<script src="zoom.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const fmt=n=>n>=1048576?(n/1048576).toFixed(2)+' MB':(n/1024).toFixed(1)+' KB';
+const wait=()=>new Promise(r=>setTimeout(r,30));
+
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x===b));
+  document.querySelectorAll('.panel').forEach(p=>p.hidden=p.id!==b.dataset.t);
+});
+function zone(id,cb){
+  const d=$(id),i=d.querySelector('input');
+  d.ondragover=e=>{e.preventDefault();d.classList.add('on')};
+  d.ondragleave=()=>d.classList.remove('on');
+  d.ondrop=e=>{e.preventDefault();d.classList.remove('on');cb([...e.dataTransfer.files])};
+  i.onchange=()=>{cb([...i.files]);i.value=''};
+}
+const loadBlob=b=>new Promise((res,rej)=>{
+  const i=new Image();i.onload=()=>res(i);i.onerror=()=>rej(new Error('Cannot read image'));
+  i.src=URL.createObjectURL(b);
+});
+function draw(img,scale){
+  const c=document.createElement('canvas');
+  c.width=Math.max(1,Math.round(img.naturalWidth*scale));
+  c.height=Math.max(1,Math.round(img.naturalHeight*scale));
+  const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);
+  x.drawImage(img,0,0,c.width,c.height);return c;
+}
+function drawWH(img,w,h){const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,w,h);x.drawImage(img,0,0,w,h);return c}
+const toBlob=(c,q)=>new Promise(r=>c.toBlob(r,'image/jpeg',q));
+const isImg=f=>/^image\/(jpeg|png)$/.test(f.type);
+
+// ---------- TAB 1 ----------
+let img1=null,url1=null,name1='image',size1=0;
+zone('d1',async fs=>{
+  const f=fs.find(isImg);
+  if(!f){alert('Please select a JPG or PNG image.');return}
+  try{img1=await loadBlob(f)}catch(e){alert(e.message);return}
+  name1=f.name.replace(/\.[^.]+$/,'');size1=f.size;
+  $('w1').classList.remove('hide');$('dl1').classList.add('hide');$('m1').textContent='';
+  $('p1').src=img1.src;$('o1').textContent=fmt(f.size);
+  $('od').textContent=img1.naturalWidth+'×'+img1.naturalHeight+' px';
+  $('wi').value=img1.naturalWidth;$('hi').value=img1.naturalHeight;
+  $('p2').removeAttribute('src');$('c1').textContent='–';$('cd').textContent='–';
+});
+function sync(from){
+  if(!img1||!$('lk').checked)return;
+  const r=img1.naturalWidth/img1.naturalHeight;
+  if(from==='w')$('hi').value=Math.max(1,Math.round($('wi').value/r));
+  else $('wi').value=Math.max(1,Math.round($('hi').value*r));
+}
+$('wi').oninput=()=>sync('w');$('hi').oninput=()=>sync('h');
+$('lk').onchange=()=>sync('w');
+$('rs').onclick=()=>{if(img1){$('wi').value=img1.naturalWidth;$('hi').value=img1.naturalHeight}};
+async function reach(best,min,target){
+  const hi=await toBlob(best.c,.98);
+  if(hi.size>=min&&hi.size<=target)return {bl:hi,c:best.c};
+  const base=hi.size<=target&&hi.size>best.bl.size?hi:best.bl,need=Math.min(target,min+300)-base.size;
+  return need>0?{bl:new Blob([base,new Uint8Array(need)],{type:'image/jpeg'}),c:best.c,pad:true}:{bl:base,c:best.c};
+}
+async function run1(target,tag,min){
+  if(!img1)return;
+  const m=$('m1'),w=Math.round(+$('wi').value),h=Math.round(+$('hi').value);
+  if(!(w>0&&h>0)||w>8000||h>8000){m.className='stat err';m.textContent='Enter width and height between 1 and 8000 px.';return}
+  m.className='stat';m.textContent='Working…';await wait();
+  const custom=w!==img1.naturalWidth||h!==img1.naturalHeight;
+  let best=null;
+  if(target==null){const c=drawWH(img1,w,h);best={bl:await toBlob(c,.92),c}}
+  else{
+    const s0=Math.min(1,1600/Math.max(img1.naturalWidth,img1.naturalHeight));
+    for(const f of (custom?[1]:[1,.85,.7,.55,.42,.32,.24,.16,.1])){
+      const c=custom?drawWH(img1,w,h):draw(img1,s0*f);let lo=.05,hi=.95,found=null;
+      for(let i=0;i<7;i++){
+        const q=(lo+hi)/2,bl=await toBlob(c,q);
+        if(bl.size<=target){found={bl,c};lo=q}else hi=q;
+      }
+      if(!found){const bl=await toBlob(c,.05);if(bl.size<=target)found={bl,c}}
+      if(found){best=found;break}
+    }
+  }
+  if(!best){m.className='stat err';m.textContent=custom?'Could not reach that size at these exact dimensions. Try a larger size or smaller dimensions.':'Could not reach that size. Try a larger target.';return}
+  if(min&&target&&best.bl.size<min)best=await reach(best,min,target);
+  if(url1)URL.revokeObjectURL(url1);
+  url1=URL.createObjectURL(best.bl);
+  $('p2').src=url1;$('c1').textContent=fmt(best.bl.size);
+  $('cd').textContent=best.c.width+'×'+best.c.height+' px';
+  const a=$('dl1');a.href=url1;a.download=`${name1}_${tag}.jpg`;a.classList.remove('hide');
+  m.className='stat ok';m.textContent=`✔ Done. ${fmt(size1)} → ${fmt(best.bl.size)}, ${best.c.width}×${best.c.height} px.`+(best.pad?' Extra bytes were added to reach your minimum size; the picture itself is unchanged.':'');
+}
+document.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>run1(b.dataset.k*1024,b.dataset.k+'kb'));
+$('ro').onclick=()=>run1(null,'resized');
+$('cb').onclick=()=>{
+  const v=parseFloat($('ck').value),mv=parseFloat($('mn').value)||0,k=$('cu').value==='MB'?1048576:1024,m=$('m1');
+  if(!(v>0)){m.className='stat err';m.textContent='Enter a max size greater than 0.';return}
+  if(mv>=v){m.className='stat err';m.textContent='Min size must be smaller than max size.';return}
+  run1(Math.round(v*k),(mv?mv+'-':'')+v+$('cu').value.toLowerCase(),Math.round(mv*k));
+};
+
+// ---------- PWA ----------
+if('serviceWorker' in navigator&&location.protocol.startsWith('http')){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Image to PDF Converter Online: Combine Photos | FormFit</title>
+<meta name="description" content="Combine several JPG or PNG images into one PDF online. Arrange the page order, free and private, no login.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://rohitwebcraft.github.io/resize-photo-20kb/image-to-pdf.html">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icon-192.png">
+<meta name="theme-color" content="#1d4ed8">
+</head>
+<body>
+<header><div class="wrap"><a class="logo" href="./">FormFit</a><nav class="nav"><a href="./">Tools</a><a href="photo-name-date.html">Name &amp; Date</a><a href="photo-signature-join.html">Photo + Signature</a><a href="about.html">About</a></nav></div></header>
+<main class="wrap page">
+<h1>Image to PDF Converter: Combine Photos and Documents into One PDF</h1>
+<p class="stat">Upload certificates, marksheets or ID proofs and download them as a single PDF. Nothing is uploaded to a server.</p>
+<div class="card" id="t2">
+<h2 style="margin-top:0">Image to PDF Converter</h2>
+<label class="drop" id="d2">
+<input type="file" id="f2" accept="image/jpeg,image/png" multiple class="hide">
+<strong>Tap to upload multiple images</strong><br><small>Use ‹ › to change page order, × to remove</small>
+</label>
+<div class="thumbs" id="th2"></div>
+<p id="m2" class="stat" role="status"></p>
+<button class="p" id="b2" disabled>⬇ Download Combined PDF</button>
+<button class="o" id="x2">Clear</button>
+</div>
+<section class="how"><h2>How to use</h2><p>Select your images, use the arrow buttons to set the page order, remove any you do not need and tap download. Each image becomes one A4 page. If the PDF is too large for the portal, compress it with the <a href="pdf-compressor.html">PDF compressor</a>.</p></section>
+</main>
+<footer class="foot"><div class="wrap fg">
+<div><strong>Tools</strong><a href="image-resizer.html">Photo &amp; Signature Resizer</a><a href="image-to-pdf.html">Image to PDF</a><a href="pdf-compressor.html">PDF Compressor</a><a href="photo-name-date.html">Add Name &amp; Date to Photo</a><a href="photo-signature-join.html">Join Photo &amp; Signature</a><a href="image-converter.html">PNG / JPG / WebP Converter</a><a href="size-converter.html">cm / mm / inch to Pixels</a><a href="file-checker.html">Form File Checker</a></div>
+<div><strong>About</strong><a href="about.html">About FormFit</a><a href="contact.html">Contact Us</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Use</a></div>
+<div><strong>Our Other Projects</strong><a href="https://rohitwebcraft.github.io/Rohit-Sir-English-Quest/" rel="noopener">Rohit Sir English Quest</a><a href="https://rohitwebcraft.github.io/MFE-QUIZZ-FEA/" rel="noopener">MFE Quizz</a><a href="https://rohitwebcraft.github.io/rohit-sir-english-quiz/" rel="noopener">Rohit Sir English Quiz</a><a href="https://rohitwebcraft.github.io/Rohit_Portfolio-/" rel="noopener">Rohit Sir Portfolio</a></div>
+<div><strong>Private by design</strong><p>All tools run inside your browser. Your photos and documents are never uploaded to any server.</p></div>
+<div><strong>More from Rohit WebCraft</strong><a href="https://rohitwebcraft.github.io/Rohit-Sir-English-Quest/" target="_blank" rel="noopener">Rohit Sir English Quest</a><a href="https://rohitwebcraft.github.io/rohit-sir-english-quiz/" target="_blank" rel="noopener">Rohit Sir English Quiz</a><a href="https://rohitwebcraft.github.io/MFE-QUIZZ-FEA/" target="_blank" rel="noopener">MFE Quiz FEA</a><a href="https://rohitwebcraft.github.io/Rohit_Portfolio-/" target="_blank" rel="noopener">Rohit Portfolio</a></div>
+</div><p class="copy">© 2026 FormFit · Free online student utility tools</p></footer>
+<script>
+const $=id=>document.getElementById(id);
+const fmt=n=>n>=1048576?(n/1048576).toFixed(2)+' MB':(n/1024).toFixed(1)+' KB';
+const wait=()=>new Promise(r=>setTimeout(r,30));
+
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x===b));
+  document.querySelectorAll('.panel').forEach(p=>p.hidden=p.id!==b.dataset.t);
+});
+function zone(id,cb){
+  const d=$(id),i=d.querySelector('input');
+  d.ondragover=e=>{e.preventDefault();d.classList.add('on')};
+  d.ondragleave=()=>d.classList.remove('on');
+  d.ondrop=e=>{e.preventDefault();d.classList.remove('on');cb([...e.dataTransfer.files])};
+  i.onchange=()=>{cb([...i.files]);i.value=''};
+}
+const loadBlob=b=>new Promise((res,rej)=>{
+  const i=new Image();i.onload=()=>res(i);i.onerror=()=>rej(new Error('Cannot read image'));
+  i.src=URL.createObjectURL(b);
+});
+function draw(img,scale){
+  const c=document.createElement('canvas');
+  c.width=Math.max(1,Math.round(img.naturalWidth*scale));
+  c.height=Math.max(1,Math.round(img.naturalHeight*scale));
+  const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);
+  x.drawImage(img,0,0,c.width,c.height);return c;
+}
+function drawWH(img,w,h){const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,w,h);x.drawImage(img,0,0,w,h);return c}
+const toBlob=(c,q)=>new Promise(r=>c.toBlob(r,'image/jpeg',q));
+const isImg=f=>/^image\/(jpeg|png)$/.test(f.type);
+
+// ---------- TAB 2 ----------
+function buildPdf(pages){
+  const enc=new TextEncoder(),parts=[],offs=[];let len=0;
+  const push=d=>{const b=typeof d==='string'?enc.encode(d):d;parts.push(b);len+=b.length};
+  const obj=(id,s)=>{offs[id]=len;push(id+' 0 obj\n'+s+'\nendobj\n')};
+  push('%PDF-1.4\n');
+  obj(1,'<</Type/Catalog/Pages 2 0 R>>');
+  obj(2,`<</Type/Pages/Count ${pages.length}/Kids[${pages.map((_,i)=>(3+3*i)+' 0 R').join(' ')}]>>`);
+  pages.forEach((p,i)=>{
+    const id=3+3*i,land=p.w>p.h,PW=land?842:595,PH=land?595:842,M=24;
+    const r=Math.min((PW-2*M)/p.w,(PH-2*M)/p.h),w=p.w*r,h=p.h*r,x=(PW-w)/2,y=(PH-h)/2;
+    obj(id,`<</Type/Page/Parent 2 0 R/MediaBox[0 0 ${PW} ${PH}]/Resources<</XObject<</I ${id+2} 0 R>>>>/Contents ${id+1} 0 R>>`);
+    const cs=`q ${w.toFixed(2)} 0 0 ${h.toFixed(2)} ${x.toFixed(2)} ${y.toFixed(2)} cm /I Do Q`;
+    obj(id+1,`<</Length ${cs.length}>>\nstream\n${cs}\nendstream`);
+    offs[id+2]=len;
+    push(`${id+2} 0 obj\n<</Type/XObject/Subtype/Image/Width ${p.w}/Height ${p.h}/ColorSpace/DeviceRGB/BitsPerComponent 8/Filter/DCTDecode/Length ${p.bytes.length}>>\nstream\n`);
+    push(p.bytes);push('\nendstream\nendobj\n');
+  });
+  const n=3+3*pages.length,x=len;
+  push(`xref\n0 ${n}\n0000000000 65535 f \n`);
+  for(let i=1;i<n;i++)push(String(offs[i]).padStart(10,'0')+' 00000 n \n');
+  push(`trailer\n<</Size ${n}/Root 1 0 R>>\nstartxref\n${x}\n%%EOF`);
+  return new Blob(parts,{type:'application/pdf'});
+}
+let list2=[];
+function render2(){
+  const t=$('th2');t.innerHTML='';
+  list2.forEach((it,i)=>{
+    const d=document.createElement('div');d.className='th';
+    d.innerHTML=`<img src="${it.img.src}" alt="Page ${i+1}"><div class="cap">${i+1}. ${it.name.replace(/[<>&"]/g,'')}<br><b>${fmt(it.size)}</b></div><div class="ctl"><button aria-label="Move left">‹</button><button aria-label="Remove">×</button><button aria-label="Move right">›</button></div>`;
+    const [l,x,r]=d.querySelectorAll('button');
+    l.onclick=()=>{if(i>0){[list2[i-1],list2[i]]=[list2[i],list2[i-1]];render2()}};
+    r.onclick=()=>{if(i<list2.length-1){[list2[i+1],list2[i]]=[list2[i],list2[i+1]];render2()}};
+    x.onclick=()=>{list2.splice(i,1);render2()};
+    t.appendChild(d);
+  });
+  $('b2').disabled=!list2.length;
+  const tot=list2.reduce((a,b)=>a+b.size,0);
+  $('m2').className='stat';
+  $('m2').innerHTML=list2.length?`${list2.length} image(s) · Total input size: <span class="size">${fmt(tot)}</span>`:'';
+}
+zone('d2',async fs=>{
+  for(const f of fs.filter(isImg)){
+    try{list2.push({img:await loadBlob(f),name:f.name,size:f.size})}catch(e){}
+  }
+  render2();
+});
+$('x2').onclick=()=>{list2=[];render2()};
+$('b2').onclick=async()=>{
+  const m=$('m2');m.textContent='Building PDF…';await wait();
+  const pages=[];
+  for(const it of list2){
+    const s=Math.min(1,1800/Math.max(it.img.naturalWidth,it.img.naturalHeight));
+    const c=draw(it.img,s),bl=await toBlob(c,.85);
+    pages.push({w:c.width,h:c.height,bytes:new Uint8Array(await bl.arrayBuffer())});
+  }
+  const pdf=buildPdf(pages),a=document.createElement('a');
+  a.href=URL.createObjectURL(pdf);a.download='formfit_document.pdf';a.click();
+  m.className='stat ok';m.textContent=`✔ PDF downloaded (${fmt(pdf.size)}).`;
+};
+
+// ---------- PWA ----------
+if('serviceWorker' in navigator&&location.protocol.startsWith('http')){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+}
+</script>
+</body>
+</html>

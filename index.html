@@ -66,9 +66,10 @@
 <button class="p" data-k="100">Under 100KB</button>
 </div>
 <div class="row">
-<label>Custom size<input type="number" id="ck" min="1" step="any" placeholder="e.g. 35"></label>
+<label>Min size (optional)<input type="number" id="mn" min="0" step="any" placeholder="e.g. 20"></label>
+<label>Max size<input type="number" id="ck" min="1" step="any" placeholder="e.g. 50"></label>
 <select id="cu" aria-label="Unit"><option>KB</option><option>MB</option></select>
-<button class="p" id="cb" type="button">Compress to custom size</button>
+<button class="p" id="cb" type="button">Compress to this size range</button>
 </div>
 <p id="m1" class="stat" role="status"></p>
 <a class="p hide" id="dl1" download>⬇ Download Image</a>
@@ -99,9 +100,9 @@
 <p class="stat">File: <b id="n3">–</b> · Size: <span class="size" id="s3">–</span></p>
 <label class="stat" for="q3">Compression level</label><br>
 <select id="q3">
-<option value="0.7,1">Light (best quality)</option>
-<option value="0.5,0.8" selected>Medium (recommended)</option>
-<option value="0.35,0.6">Strong (smallest size)</option>
+<option value="1">Light (best quality)</option>
+<option value="2" selected>Medium (recommended)</option>
+<option value="4">Strong (smallest size)</option>
 <option value="custom">Custom size (choose KB / MB)</option>
 </select>
 <div class="row hide" id="cu3">
@@ -143,8 +144,14 @@
 <details><summary>Which image format do I get after resizing?</summary><p>Resized images are saved as JPG, which is the format most exam and government portals accept. PNG photos are converted to JPG automatically.</p></details>
 </section>
 <section class="how"><h2>More Free Exam Form Tools</h2><div class="cards">
-<a href="photo-name-date.html"><b>Add Name &amp; Date to Photo</b><span>Add the name and date strip many exam forms ask for below your photo.</span></a>
-<a href="photo-signature-join.html"><b>Join Photo &amp; Signature</b><span>Combine your photo and signature into one image, with a size limit if needed.</span></a>
+<a href="image-resizer.html"><b>Photo &amp; Signature Resizer</b><span>Resize a photo or signature to 20KB, 50KB, 100KB or any size range.</span></a>
+<a href="image-to-pdf.html"><b>Image to PDF</b><span>Combine several images into one PDF.</span></a>
+<a href="pdf-compressor.html"><b>PDF Compressor</b><span>Reduce PDF size to a smaller KB or MB.</span></a>
+<a href="photo-name-date.html"><b>Add Name &amp; Date to Photo</b><span>Add the name and date strip below your photo.</span></a>
+<a href="photo-signature-join.html"><b>Join Photo &amp; Signature</b><span>Combine photo and signature into one image.</span></a>
+<a href="image-converter.html"><b>PNG / JPG / WebP Converter</b><span>Convert images to JPG, PNG or WebP.</span></a>
+<a href="size-converter.html"><b>cm / mm / inch to Pixels</b><span>Turn a form's size in cm or inches into pixels.</span></a>
+<a href="file-checker.html"><b>Form File Checker</b><span>Check size, dimensions and format before you upload.</span></a>
 </div></section>
 <section class="how"><h2>More Projects by the Creator</h2><p>FormFit is built by an educator who also creates free learning games and quizzes. Explore them below.</p><div class="cards">
 <a href="https://rohitwebcraft.github.io/Rohit-Sir-English-Quest/" rel="noopener"><b>Rohit Sir English Quest</b><span>A free, level-wise English learning game with grammar lessons, vocabulary, listening and speaking practice, streaks, XP and ranks.</span></a>
@@ -154,7 +161,7 @@
 </div></section>
 </main>
 <footer class="foot"><div class="wrap fg">
-<div><strong>Tools</strong><a href="./">Photo Resizer (20KB / 50KB / 100KB)</a><a href="./">Image to PDF</a><a href="./">PDF Compressor</a><a href="photo-name-date.html">Add Name &amp; Date to Photo</a><a href="photo-signature-join.html">Join Photo &amp; Signature</a></div>
+<div><strong>Tools</strong><a href="image-resizer.html">Photo &amp; Signature Resizer</a><a href="image-to-pdf.html">Image to PDF</a><a href="pdf-compressor.html">PDF Compressor</a><a href="photo-name-date.html">Add Name &amp; Date to Photo</a><a href="photo-signature-join.html">Join Photo &amp; Signature</a><a href="image-converter.html">PNG / JPG / WebP Converter</a><a href="size-converter.html">cm / mm / inch to Pixels</a><a href="file-checker.html">Form File Checker</a></div>
 <div><strong>About</strong><a href="about.html">About FormFit</a><a href="contact.html">Contact Us</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Use</a></div>
 <div><strong>Our Other Projects</strong><a href="https://rohitwebcraft.github.io/Rohit-Sir-English-Quest/" rel="noopener">Rohit Sir English Quest</a><a href="https://rohitwebcraft.github.io/MFE-QUIZZ-FEA/" rel="noopener">MFE Quizz</a><a href="https://rohitwebcraft.github.io/rohit-sir-english-quiz/" rel="noopener">Rohit Sir English Quiz</a><a href="https://rohitwebcraft.github.io/Rohit_Portfolio-/" rel="noopener">Rohit Sir Portfolio</a></div>
 <div><strong>Private by design</strong><p>All tools run inside your browser. Your photos and documents are never uploaded to any server.</p></div>
@@ -214,7 +221,13 @@ function sync(from){
 $('wi').oninput=()=>sync('w');$('hi').oninput=()=>sync('h');
 $('lk').onchange=()=>sync('w');
 $('rs').onclick=()=>{if(img1){$('wi').value=img1.naturalWidth;$('hi').value=img1.naturalHeight}};
-async function run1(target,tag){
+async function reach(best,min,target){
+  const hi=await toBlob(best.c,.98);
+  if(hi.size>=min&&hi.size<=target)return {bl:hi,c:best.c};
+  const base=hi.size<=target&&hi.size>best.bl.size?hi:best.bl,need=Math.min(target,min+300)-base.size;
+  return need>0?{bl:new Blob([base,new Uint8Array(need)],{type:'image/jpeg'}),c:best.c,pad:true}:{bl:base,c:best.c};
+}
+async function run1(target,tag,min){
   if(!img1)return;
   const m=$('m1'),w=Math.round(+$('wi').value),h=Math.round(+$('hi').value);
   if(!(w>0&&h>0)||w>8000||h>8000){m.className='stat err';m.textContent='Enter width and height between 1 and 8000 px.';return}
@@ -235,19 +248,21 @@ async function run1(target,tag){
     }
   }
   if(!best){m.className='stat err';m.textContent=custom?'Could not reach that size at these exact dimensions. Try a larger size or smaller dimensions.':'Could not reach that size. Try a larger target.';return}
+  if(min&&target&&best.bl.size<min)best=await reach(best,min,target);
   if(url1)URL.revokeObjectURL(url1);
   url1=URL.createObjectURL(best.bl);
   $('p2').src=url1;$('c1').textContent=fmt(best.bl.size);
   $('cd').textContent=best.c.width+'×'+best.c.height+' px';
   const a=$('dl1');a.href=url1;a.download=`${name1}_${tag}.jpg`;a.classList.remove('hide');
-  m.className='stat ok';m.textContent=`✔ Done. ${fmt(size1)} → ${fmt(best.bl.size)}, ${best.c.width}×${best.c.height} px.`;
+  m.className='stat ok';m.textContent=`✔ Done. ${fmt(size1)} → ${fmt(best.bl.size)}, ${best.c.width}×${best.c.height} px.`+(best.pad?' Extra bytes were added to reach your minimum size; the picture itself is unchanged.':'');
 }
 document.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>run1(b.dataset.k*1024,b.dataset.k+'kb'));
 $('ro').onclick=()=>run1(null,'resized');
 $('cb').onclick=()=>{
-  const v=parseFloat($('ck').value);
-  if(!(v>0)){$('m1').className='stat err';$('m1').textContent='Enter a custom size greater than 0.';return}
-  run1(Math.round(v*($('cu').value==='MB'?1048576:1024)),v+$('cu').value.toLowerCase());
+  const v=parseFloat($('ck').value),mv=parseFloat($('mn').value)||0,k=$('cu').value==='MB'?1048576:1024,m=$('m1');
+  if(!(v>0)){m.className='stat err';m.textContent='Enter a max size greater than 0.';return}
+  if(mv>=v){m.className='stat err';m.textContent='Min size must be smaller than max size.';return}
+  run1(Math.round(v*k),(mv?mv+'-':'')+v+$('cu').value.toLowerCase(),Math.round(mv*k));
 };
 
 // ---------- TAB 2 ----------
@@ -324,25 +339,65 @@ zone('d3',fs=>{
 // Step 1: safe cleanup. Add more text-level passes here (each takes/returns a latin1 string).
 const passes=[s=>{const i=s.lastIndexOf('%%EOF');return i>0?s.slice(0,i+5)+'\n':s}];
 
-// Step 2: re-compress embedded JPEG (DCTDecode, DeviceRGB) images, then rebuild the xref table.
+// Step 2: re-compress embedded images (JPEG and raw Flate pixels), then rebuild the xref table.
+async function inflate(u){const r=new Response(new Blob([u]).stream().pipeThrough(new DecompressionStream('deflate')));return new Uint8Array(await r.arrayBuffer())}
+function unfilter(d,w,h,bpp){
+  const st=w*bpp,o=new Uint8Array(st*h);
+  for(let y=0;y<h;y++){
+    const f=d[y*(st+1)],sr=y*(st+1)+1,ds=y*st;
+    for(let x=0;x<st;x++){
+      const a=x>=bpp?o[ds+x-bpp]:0,b=y?o[ds-st+x]:0,c=(x>=bpp&&y)?o[ds-st+x-bpp]:0;let v=d[sr+x];
+      if(f===1)v+=a;else if(f===2)v+=b;else if(f===3)v+=(a+b)>>1;
+      else if(f===4){const p=a+b-c,pa=Math.abs(p-a),pb=Math.abs(p-b),pc=Math.abs(p-c);v+=(pa<=pb&&pa<=pc)?a:(pb<=pc?b:c)}
+      o[ds+x]=v&255;
+    }
+  }
+  return o;
+}
+const dget=(d,k)=>{const m=d.match(new RegExp('/'+k+'\\s+(\\d+)'));return m?+m[1]:0};
+async function toPixels(data,d){
+  const w=dget(d,'Width'),h=dget(d,'Height'),pr=dget(d,'Predictor');
+  if(!w||!h||dget(d,'BitsPerComponent')!==8||pr===2||/\/(ImageMask|Indexed|Mask|Decode)\b/.test(d))return null;
+  let raw=await inflate(unbin(data)),comps=0;
+  for(const c of [3,1]){
+    if(pr>=10&&raw.length===h*(w*c+1)){comps=c;raw=unfilter(raw,w,h,c);break}
+    if(pr<10&&raw.length===w*h*c){comps=c;break}
+  }
+  if(!comps)return null;
+  const cv=document.createElement('canvas');cv.width=w;cv.height=h;
+  const cx=cv.getContext('2d'),id=cx.createImageData(w,h),o=id.data;
+  for(let i=0,p=0;i<w*h;i++,p+=comps){o[i*4]=raw[p];o[i*4+1]=raw[comps===3?p+1:p];o[i*4+2]=raw[comps===3?p+2:p];o[i*4+3]=255}
+  cx.putImageData(id,0,0);return cv;
+}
 async function recompress(s,q,sc,say){
   if(/\/Type\s*\/XRef|\/ObjStm|\/Encrypt/.test(s))return null;
   const re=/(\d+) (\d+) obj\s*(<<(?:(?!endobj)[\s\S])*?>>)\s*stream\r?\n/g;
+  const FL=/\/Filter\s*(?:\[\s*)?\/(DCTDecode|FlateDecode)\s*\]?(?=\s*(?:\/|>>))/;
   const ms=[...s.matchAll(re)];let out='',last=0,n=0,done=0;
   for(const m of ms){
-    const d=m[3];
-    if(!/\/Subtype\s*\/Image/.test(d)||!/\/Filter\s*\/DCTDecode/.test(d)||!/\/ColorSpace\s*\/DeviceRGB/.test(d)||!/\/Length\s+\d+(?=\s*(\/|>>))/.test(d))continue;
-    n++;say(`Compressing image ${n}…`);await wait();
+    let d=m[3];
+    if(!/\/Subtype\s*\/Image/.test(d)||!/\/Length\s+\d+(?=\s*(\/|>>))/.test(d))continue;
+    const fm=d.match(FL);if(!fm)continue;
     const st=m.index+m[0].length,en=s.indexOf('endstream',st);
     if(en<0||st<last)continue;
     const data=s.slice(st,en).replace(/\r?\n$/,'');
+    if(data.length<4000)continue;
+    n++;say('Compressing image '+n+'…');await wait();
     try{
-      const img=await loadBlob(new Blob([unbin(data)],{type:'image/jpeg'}));
-      const c=draw(img,sc),bl=await toBlob(c,q),nb=bin(new Uint8Array(await bl.arrayBuffer()));
-      if(nb.length>=data.length)continue;
-      const nd=d.replace(/\/Width\s+\d+/,'/Width '+c.width).replace(/\/Height\s+\d+/,'/Height '+c.height)
+      let src,w,h;const bpc=dget(d,'BitsPerComponent');
+      if(fm[1]==='DCTDecode'){
+        if(bpc&&bpc!==8)continue;
+        src=await loadBlob(new Blob([unbin(data)],{type:'image/jpeg'}));w=src.naturalWidth;h=src.naturalHeight;
+      }else{src=await toPixels(data,d);if(!src)continue;w=src.width;h=src.height}
+      const nw=Math.max(1,Math.round(w*sc)),nh=Math.max(1,Math.round(h*sc));
+      const bl=await toBlob(drawWH(src,nw,nh),q),nb=bin(new Uint8Array(await bl.arrayBuffer()));
+      if(nb.length>=data.length*.97)continue;
+      d=d.replace(FL,'/Filter/DCTDecode').replace(/\/DecodeParms\s*(?:<<[^>]*>>|\d+ \d+ R)/,'').replace(/\/Decode\s*\[[^\]]*\]/,'')
+        .replace(/\/ColorSpace\s*(?:\[[^\]]*\]|\/\w+|\d+ \d+ R)/,'/ColorSpace/DeviceRGB')
+        .replace(/\/Width\s+\d+/,'/Width '+nw).replace(/\/Height\s+\d+/,'/Height '+nh)
         .replace(/\/Length\s+\d+(?=\s*(\/|>>))/,'/Length '+nb.length);
-      out+=s.slice(last,m.index)+`${m[1]} ${m[2]} obj\n${nd}\nstream\n`+nb+'\n';last=en;done++;
+      if(!/\/ColorSpace/.test(d))d=d.replace('<<','<</ColorSpace/DeviceRGB ');
+      out+=s.slice(last,m.index)+m[1]+' '+m[2]+' obj\n'+d+'\nstream\n'+nb+'\n';last=en;done++;
     }catch(e){}
   }
   if(!done)return {s,done:0};
@@ -352,12 +407,13 @@ async function recompress(s,q,sc,say){
   const root=[...s.matchAll(/\/Root\s+(\d+ \d+ R)/g)].pop();
   if(!root)return null;
   const info=[...s.matchAll(/\/Info\s+(\d+ \d+ R)/g)].pop();
-  const xp=out.length;let x=`xref\n0 ${max+1}\n0000000000 65535 f \n`;
+  const xp=out.length;let x='xref\n0 '+(max+1)+'\n0000000000 65535 f \n';
   for(let i=1;i<=max;i++)x+=offs[i]!=null?String(offs[i]).padStart(10,'0')+' 00000 n \n':'0000000000 65535 f \n';
-  x+=`trailer\n<</Size ${max+1}/Root ${root[1]}${info?'/Info '+info[1]:''}>>\nstartxref\n${xp}\n%%EOF\n`;
+  x+='trailer\n<</Size '+(max+1)+'/Root '+root[1]+(info?'/Info '+info[1]:'')+'>>\nstartxref\n'+xp+'\n%%EOF\n';
   return {s:out+x,done};
 }
-const ladder=[[.7,1],[.55,.85],[.4,.7],[.3,.55],[.22,.42],[.15,.32],[.1,.24]];
+// The chosen level is tried first; if it cannot shrink the file, stronger levels are applied automatically.
+const ladder=[[.8,1],[.7,1],[.55,.85],[.4,.7],[.3,.55],[.22,.42],[.15,.32],[.1,.24],[.07,.18]];
 $('q3').onchange=()=>$('cu3').classList.toggle('hide',$('q3').value!=='custom');
 $('b3').onclick=async()=>{
   const m=$('m3'),custom=$('q3').value==='custom';let target=null;
@@ -365,34 +421,41 @@ $('b3').onclick=async()=>{
     const v=parseFloat($('tv3').value);
     if(!(v>0)){m.className='stat err';m.textContent='Enter a target size greater than 0.';return}
     target=Math.round(v*($('tu3').value==='MB'?1048576:1024));
-    if(pdf3.size<=target){m.className='stat ok';m.textContent=`This PDF (${fmt(pdf3.size)}) is already under ${fmt(target)}.`;$('dl3').classList.add('hide');return}
+    if(pdf3.size<=target){m.className='stat ok';m.textContent='This PDF ('+fmt(pdf3.size)+') is already under '+fmt(target)+'.';$('dl3').classList.add('hide');return}
   }
   m.className='stat';m.textContent='Reading PDF…';await wait();
   let s=bin(new Uint8Array(await pdf3.arrayBuffer()));
   for(const p of passes)s=p(s);
-  const tries=custom?ladder:[$('q3').value.split(',').map(Number)];
-  let note='',best=s,done=0;
+  const start=custom?0:+$('q3').value;
+  let best=s,done=0,unsupported=false,esc=false;
   try{
-    for(let i=0;i<tries.length;i++){
-      const [q,sc]=tries[i];
-      const r=await recompress(s,q,sc,t=>m.textContent=(custom?`Pass ${i+1}/${tries.length}: `:'')+t);
-      if(r===null){note=' (This PDF type can\'t be deeply compressed here; only safe cleanup applied.)';break}
-      if(!r.done){note=' (No compressible JPEG images found in this PDF.)';break}
-      best=r.s;done=r.done;
-      if(custom&&best.length<=target)break;
+    for(let i=start;i<ladder.length;i++){
+      const r=await recompress(s,ladder[i][0],ladder[i][1],t=>m.textContent=(i>start?'Stronger pass: ':'')+t);
+      if(r===null){unsupported=true;break}
+      if(r.done){best=r.s;done=r.done;if(i>start)esc=true}
+      if(custom?best.length<=target:best.length<pdf3.size*.97)break;
     }
-    if(done)note=` (${done} image(s) recompressed.)`;
-  }catch(e){note=' (Deep compression failed; safe cleanup only.)'}
-  s=best;
-  const bl=new Blob([unbin(s)],{type:'application/pdf'}),a=$('dl3'),saved=pdf3.size-bl.size;
-  if(custom&&bl.size>target)note+=` Could not reach ${fmt(target)}; this is the smallest possible for this file.`;
+  }catch(e){}
+  const bl=new Blob([unbin(best)],{type:'application/pdf'}),a=$('dl3'),saved=pdf3.size-bl.size;
   if(saved>0){
     a.href=URL.createObjectURL(bl);a.download='compressed_'+pdf3.name;a.classList.remove('hide');
-    m.className='stat ok';m.textContent=`✔ ${fmt(pdf3.size)} → ${fmt(bl.size)} (saved ${fmt(saved)}).${note}`;
+    let note=' ('+done+' image(s) recompressed.)';
+    if(esc&&!custom)note+=' The level you chose could not shrink this file, so stronger compression was applied automatically.';
+    if(custom&&bl.size>target)note+=' Could not reach '+fmt(target)+'; this is the smallest possible for this file.';
+    note+=' Note: image quality is reduced, so open the PDF and check that text and photos are still readable before you submit it.';
+    m.className='stat ok';m.textContent='✔ '+fmt(pdf3.size)+' → '+fmt(bl.size)+' (saved '+fmt(saved)+').'+note;
   }else{
-    a.classList.add('hide');m.className='stat';m.textContent='No safe size reduction possible for this file.'+note;
+    a.classList.add('hide');m.className='stat err';
+    m.textContent=unsupported
+      ?'This PDF uses compressed object streams or encryption, which this browser tool cannot rewrite. Tip: re-save it from your PDF app using "Reduce file size", or convert its pages to images and rebuild them with Image to PDF.'
+      :'This PDF has no images this tool can shrink (text-only PDFs are already small).';
   }
 };
+
+// ---------- PWA ----------
+if('serviceWorker' in navigator&&location.protocol.startsWith('http')){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+}
 </script>
 <script src="zoom.js"></script>
 </body>
