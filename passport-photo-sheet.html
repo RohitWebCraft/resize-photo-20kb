@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Passport Photo Print Sheet Maker (A4, 4x6) | FormFit</title>
+<meta name="description" content="Make a printable sheet with many copies of your passport photo on A4 or 4x6 inch paper. Download as PDF. Free and private.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://rohitwebcraft.github.io/resize-photo-20kb/passport-photo-sheet.html">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icon-192.png">
+<meta name="theme-color" content="#1d4ed8">
+</head>
+<body>
+<header><div class="wrap"><a class="logo" href="./">FormFit</a><nav class="nav"><a href="./">Tools</a><a href="photo-name-date.html">Name &amp; Date</a><a href="photo-signature-join.html">Photo + Signature</a><a href="about.html">About</a></nav></div></header>
+<main class="wrap page"><h1>Passport Photo Print Sheet Maker</h1>
+<p class="stat">Upload one photo and get a ready-to-print sheet with many copies, as a PDF at 300 DPI. Nothing is uploaded.</p>
+<div class="card"><label class="drop" id="d1"><input type="file" id="f1" accept="image/jpeg,image/png"  class="hide"><strong>Tap to upload your photo</strong><br><small>JPG or PNG, a clear front-facing photo works best</small></label>
+<p class="stat" id="fi"></p>
+<div class="row"><label>Photo size<select id="sz"><option value="35x45">35 × 45 mm (common for exams)</option><option value="25x35">25 × 35 mm</option><option value="30x40">30 × 40 mm</option><option value="51x51">2 × 2 inch (51 × 51 mm)</option><option value="c">Custom</option></select></label>
+<label>Width mm<input type="number" id="pw" value="35" min="5" step="any"></label><label>Height mm<input type="number" id="ph" value="45" min="5" step="any"></label></div>
+<div class="row"><label>Paper<select id="pp"><option value="a4">A4</option><option value="p46">4 × 6 inch</option></select></label>
+<label>Copies (empty = fill page)<input type="number" id="cp" min="1"></label></div>
+<label class="chk"><input type="checkbox" id="ln" checked> Thin cutting border around each photo</label>
+<button class="p" id="go">Create print sheet</button>
+<p id="msg" class="stat" role="status"></p>
+<img class="pv zoomable hide" id="pv" alt="Print sheet preview"><a class="p hide" id="dl" download>⬇ Download JPG</a> <a class="p hide" id="dl2" download>⬇ Download PDF</a>
+</div>
+<section class="how"><h2>How to print</h2><p>Photos are cropped from the centre to the size you choose, so the face stays centred. When printing, choose "Actual size" or 100% scale. Do not choose "Fit to page", or the photos will print at the wrong size. Prepare the right pixel size first with the <a href="image-crop.html">image crop tool</a>.</p></section></main>
+<footer class="foot"><div class="wrap fg">
+<div><strong>Tools</strong><a href="image-resizer.html">Photo &amp; Signature Resizer</a><a href="image-to-pdf.html">Image to PDF</a><a href="pdf-compressor.html">PDF Compressor</a><a href="image-crop.html">Image Crop with Ratio</a><a href="passport-photo-sheet.html">Passport Photo Print Sheet</a><a href="bulk-resizer.html">Bulk Resizer to ZIP</a><a href="photo-name-date.html">Add Name &amp; Date to Photo</a><a href="photo-signature-join.html">Join Photo &amp; Signature</a><a href="image-converter.html">PNG / JPG / WebP Converter</a><a href="size-converter.html">cm / mm / inch to Pixels</a><a href="file-checker.html">Form File Checker</a></div>
+<div><strong>About</strong><a href="about.html">About FormFit</a><a href="contact.html">Contact Us</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Use</a></div>
+<div><strong>Our Other Projects</strong><a href="https://rohitwebcraft.github.io/Rohit-Sir-English-Quest/" rel="noopener">Rohit Sir English Quest</a><a href="https://rohitwebcraft.github.io/MFE-QUIZZ-FEA/" rel="noopener">MFE Quizz</a><a href="https://rohitwebcraft.github.io/rohit-sir-english-quiz/" rel="noopener">Rohit Sir English Quiz</a><a href="https://rohitwebcraft.github.io/Rohit_Portfolio-/" rel="noopener">Rohit Sir Portfolio</a></div>
+<div><strong>Private by design</strong><p>All tools run inside your browser. Your photos and documents are never uploaded to any server.</p></div>
+<div><strong>More from Rohit WebCraft</strong><a href="https://rohitwebcraft.github.io/Rohit-Sir-English-Quest/" target="_blank" rel="noopener">Rohit Sir English Quest</a><a href="https://rohitwebcraft.github.io/rohit-sir-english-quiz/" target="_blank" rel="noopener">Rohit Sir English Quiz</a><a href="https://rohitwebcraft.github.io/MFE-QUIZZ-FEA/" target="_blank" rel="noopener">MFE Quiz FEA</a><a href="https://rohitwebcraft.github.io/Rohit_Portfolio-/" target="_blank" rel="noopener">Rohit Portfolio</a></div>
+</div><p class="copy">© 2026 FormFit · Free online student utility tools</p></footer>
+<script src="common.js"></script>
+<script src="zoom.js"></script>
+<script>
+let IM=null,nm='photo';
+zone('d1',async fs=>{
+  const f=fs.find(isImg);if(!f){say('Please select a JPG or PNG image.','err');return}
+  try{IM=await loadBlob(f)}catch(e){say(e.message,'err');return}
+  nm=f.name.replace(/\.[^.]+$/,'');
+  $('fi').innerHTML=f.name+' · <span class="size">'+fmt(f.size)+'</span> · '+IM.naturalWidth+'×'+IM.naturalHeight+' px';
+});
+$('sz').onchange=()=>{const v=$('sz').value;if(v!=='c'){const [a,b]=v.split('x');$('pw').value=a;$('ph').value=b}};
+$('go').onclick=async()=>{
+  if(!IM){say('Upload a photo first.','err');return}
+  const mm=300/25.4,pw=Math.round($('pw').value*mm),ph=Math.round($('ph').value*mm),a4=$('pp').value==='a4';
+  const PW=a4?2480:1200,PH=a4?3508:1800,M=Math.round(5*mm),G=Math.round(2*mm);
+  if(!(pw>0&&ph>0)||pw>PW-2*M||ph>PH-2*M){say('This photo size does not fit on the paper.','err');return}
+  say('Creating sheet…');await wait();
+  const cols=Math.floor((PW-2*M+G)/(pw+G)),rows=Math.floor((PH-2*M+G)/(ph+G)),max=cols*rows;
+  let n=Math.min(parseInt($('cp').value)||max,max);
+  const cc=Math.min(cols,n),nr=Math.ceil(n/cc),gw=cc*pw+(cc-1)*G,x0=Math.round((PW-gw)/2);
+  const [c,x]=blank(PW,PH);
+  const ar=pw/ph,sa=IM.naturalWidth/IM.naturalHeight;let sw=IM.naturalWidth,sh=IM.naturalHeight,sx=0,sy=0;
+  if(sa>ar){sw=sh*ar;sx=(IM.naturalWidth-sw)/2}else{sh=sw/ar;sy=(IM.naturalHeight-sh)/2}
+  x.strokeStyle='#888';x.lineWidth=2;
+  for(let i=0;i<n;i++){
+    const px=x0+(i%cc)*(pw+G),py=M+Math.floor(i/cc)*(ph+G);
+    x.drawImage(IM,sx,sy,sw,sh,px,py,pw,ph);
+    if($('ln').checked)x.strokeRect(px,py,pw,ph);
+  }
+  const bl=await toBlob(c,.92),bytes=new Uint8Array(await bl.arrayBuffer());
+  const pdf=buildPdf([{w:PW,h:PH,bytes,pw:a4?595.28:288,ph:a4?841.89:432}]);
+  if(_u)URL.revokeObjectURL(_u);_u=URL.createObjectURL(bl);
+  $('pv').src=_u;$('pv').classList.remove('hide');
+  $('dl').href=_u;$('dl').download=nm+'_sheet.jpg';$('dl').classList.remove('hide');
+  $('dl2').href=URL.createObjectURL(pdf);$('dl2').download=nm+'_sheet.pdf';$('dl2').classList.remove('hide');
+  say('✔ '+n+' copies of '+$('pw').value+'×'+$('ph').value+' mm on '+(a4?'A4':'4×6 inch')+'. Print at 100% / Actual size.','ok');
+};
+</script>
+</body>
+</html>

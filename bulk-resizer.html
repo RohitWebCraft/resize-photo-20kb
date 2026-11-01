@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bulk Image Resizer to 20KB/50KB and Download ZIP | FormFit</title>
+<meta name="description" content="Resize many photos to the same KB limit at once and download them in one ZIP file. Free, private, no login.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://rohitwebcraft.github.io/resize-photo-20kb/bulk-resizer.html">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icon-192.png">
+<meta name="theme-color" content="#1d4ed8">
+</head>
+<body>
+<header><div class="wrap"><a class="logo" href="./">FormFit</a><nav class="nav"><a href="./">Tools</a><a href="photo-name-date.html">Name &amp; Date</a><a href="photo-signature-join.html">Photo + Signature</a><a href="about.html">About</a></nav></div></header>
+<main class="wrap page"><h1>Bulk Image Resizer: Many Photos to KB Limit, Download as ZIP</h1>
+<p class="stat">Select many photos, set the size limit, and get all of them in one ZIP. Nothing is uploaded.</p>
+<div class="card"><label class="drop" id="d1"><input type="file" id="f1" accept="image/jpeg,image/png" multiple class="hide"><strong>Tap to select many images</strong><br><small>JPG or PNG</small></label>
+<p class="stat" id="fi"></p>
+<div class="row"><label>Each image under<input type="number" id="ck" min="1" step="any" value="50"></label><select id="cu" aria-label="Unit"><option>KB</option><option>MB</option></select></div>
+<button class="p" id="go">Resize all and create ZIP</button>
+<p id="msg" class="stat" role="status"></p><div id="list"></div><a class="p hide" id="dl" download="formfit_images.zip">⬇ Download ZIP</a>
+</div>
+<section class="how"><h2>How it works</h2><p>Each image is compressed on your device until it is under your size limit, then all results are packed into one ZIP. For exact pixel sizes or custom ranges, use the <a href="image-resizer.html">single photo resizer</a>.</p></section></main>
+<footer class="foot"><div class="wrap fg">
+<div><strong>Tools</strong><a href="image-resizer.html">Photo &amp; Signature Resizer</a><a href="image-to-pdf.html">Image to PDF</a><a href="pdf-compressor.html">PDF Compressor</a><a href="image-crop.html">Image Crop with Ratio</a><a href="passport-photo-sheet.html">Passport Photo Print Sheet</a><a href="bulk-resizer.html">Bulk Resizer to ZIP</a><a href="photo-name-date.html">Add Name &amp; Date to Photo</a><a href="photo-signature-join.html">Join Photo &amp; Signature</a><a href="image-converter.html">PNG / JPG / WebP Converter</a><a href="size-converter.html">cm / mm / inch to Pixels</a><a href="file-checker.html">Form File Checker</a></div>
+<div><strong>About</strong><a href="about.html">About FormFit</a><a href="contact.html">Contact Us</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Use</a></div>
+<div><strong>Our Other Projects</strong><a href="https://rohitwebcraft.github.io/Rohit-Sir-English-Quest/" rel="noopener">Rohit Sir English Quest</a><a href="https://rohitwebcraft.github.io/MFE-QUIZZ-FEA/" rel="noopener">MFE Quizz</a><a href="https://rohitwebcraft.github.io/rohit-sir-english-quiz/" rel="noopener">Rohit Sir English Quiz</a><a href="https://rohitwebcraft.github.io/Rohit_Portfolio-/" rel="noopener">Rohit Sir Portfolio</a></div>
+<div><strong>Private by design</strong><p>All tools run inside your browser. Your photos and documents are never uploaded to any server.</p></div>
+<div><strong>More from Rohit WebCraft</strong><a href="https://rohitwebcraft.github.io/Rohit-Sir-English-Quest/" target="_blank" rel="noopener">Rohit Sir English Quest</a><a href="https://rohitwebcraft.github.io/rohit-sir-english-quiz/" target="_blank" rel="noopener">Rohit Sir English Quiz</a><a href="https://rohitwebcraft.github.io/MFE-QUIZZ-FEA/" target="_blank" rel="noopener">MFE Quiz FEA</a><a href="https://rohitwebcraft.github.io/Rohit_Portfolio-/" target="_blank" rel="noopener">Rohit Portfolio</a></div>
+</div><p class="copy">© 2026 FormFit · Free online student utility tools</p></footer>
+<script src="common.js"></script>
+<script>
+let files=[];
+zone('d1',fs=>{files=fs.filter(isImg);$('fi').textContent=files.length?files.length+' image(s) selected':''});
+function crc32(u){
+  const t=crc32.t||(crc32.t=Array.from({length:256},(_,n)=>{let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;return c>>>0}));
+  let r=-1;for(let i=0;i<u.length;i++)r=t[(r^u[i])&255]^(r>>>8);return(r^-1)>>>0;
+}
+function zip(list){
+  const enc=new TextEncoder(),parts=[],cd=[];let off=0;
+  const w=a=>{parts.push(a);off+=a.length};
+  for(const f of list){
+    const n=enc.encode(f.name),crc=crc32(f.bytes),h=new DataView(new ArrayBuffer(30));
+    h.setUint32(0,0x04034b50,true);h.setUint16(4,20,true);h.setUint16(6,0x0800,true);h.setUint16(12,0x21,true);
+    h.setUint32(14,crc,true);h.setUint32(18,f.bytes.length,true);h.setUint32(22,f.bytes.length,true);h.setUint16(26,n.length,true);
+    cd.push({n,crc,len:f.bytes.length,off});w(new Uint8Array(h.buffer));w(n);w(f.bytes);
+  }
+  const cs=off;
+  for(const e of cd){
+    const h=new DataView(new ArrayBuffer(46));
+    h.setUint32(0,0x02014b50,true);h.setUint16(4,20,true);h.setUint16(6,20,true);h.setUint16(8,0x0800,true);h.setUint16(14,0x21,true);
+    h.setUint32(16,e.crc,true);h.setUint32(20,e.len,true);h.setUint32(24,e.len,true);h.setUint16(28,e.n.length,true);h.setUint32(42,e.off,true);
+    w(new Uint8Array(h.buffer));w(e.n);
+  }
+  const ce=new DataView(new ArrayBuffer(22));
+  ce.setUint32(0,0x06054b50,true);ce.setUint16(8,cd.length,true);ce.setUint16(10,cd.length,true);ce.setUint32(12,off-cs,true);ce.setUint32(16,cs,true);
+  w(new Uint8Array(ce.buffer));
+  return new Blob(parts,{type:'application/zip'});
+}
+$('go').onclick=async()=>{
+  if(!files.length){say('Select at least one image.','err');return}
+  const t=sizeTarget('ck','cu');if(!t){say('Enter a size limit greater than 0.','err');return}
+  $('list').innerHTML='';$('dl').classList.add('hide');
+  const out=[],used={};let bad=0;
+  for(let i=0;i<files.length;i++){
+    const f=files[i];say('Processing '+(i+1)+' of '+files.length+'…');await wait();
+    const p=document.createElement('p');p.className='stat';
+    const base=f.name.replace(/\.[^.]+$/,'').replace(/[^\w.\- ]+/g,'_')||'image';
+    try{
+      const im=await loadBlob(f),k=Math.min(1,1600/Math.max(im.naturalWidth,im.naturalHeight));
+      const [c,x]=blank(Math.round(im.naturalWidth*k),Math.round(im.naturalHeight*k));x.drawImage(im,0,0,c.width,c.height);
+      const best=await compressTo(c,t);
+      if(!best)throw 0;
+      let nm=base+'_resized',j=used[nm]=(used[nm]||0)+1;if(j>1)nm+='_'+j;
+      out.push({name:nm+'.jpg',bytes:new Uint8Array(await best.bl.arrayBuffer())});
+      p.innerHTML='✅ '+base+' · <span class="size">'+fmt(f.size)+'</span> → <span class="size">'+fmt(best.bl.size)+'</span> · '+best.c.width+'×'+best.c.height+' px';
+    }catch(e){bad++;p.innerHTML='❌ '+base+': could not reach '+fmt(t)+' (try a larger limit)'}
+    $('list').appendChild(p);
+  }
+  if(!out.length){say('No image could be resized. Try a larger size limit.','err');return}
+  const z=zip(out);if(_u)URL.revokeObjectURL(_u);_u=URL.createObjectURL(z);
+  $('dl').href=_u;$('dl').classList.remove('hide');
+  say('✔ '+out.length+' image(s) ready ('+fmt(z.size)+' ZIP).'+(bad?' '+bad+' failed.':''),'ok');
+};
+</script>
+</body>
+</html>

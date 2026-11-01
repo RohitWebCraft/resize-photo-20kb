@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Crop Photo to Passport Size or Any Ratio Online | FormFit</title>
+<meta name="description" content="Crop your photo to square, passport 35x45 mm or a custom ratio, then set output size and KB limit. Free and private.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://rohitwebcraft.github.io/resize-photo-20kb/image-crop.html">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icon-192.png">
+<meta name="theme-color" content="#1d4ed8">
+</head>
+<body>
+<header><div class="wrap"><a class="logo" href="./">FormFit</a><nav class="nav"><a href="./">Tools</a><a href="photo-name-date.html">Name &amp; Date</a><a href="photo-signature-join.html">Photo + Signature</a><a href="about.html">About</a></nav></div></header>
+<main class="wrap page"><h1>Image Crop with Ratio: Passport, Square or Custom</h1>
+<p class="stat">Choose a ratio, move the crop box over your face, and download. Nothing is uploaded.</p>
+<div class="card"><label class="drop" id="d1"><input type="file" id="f1" accept="image/jpeg,image/png"  class="hide"><strong>Tap to upload your photo</strong><br><small>JPG or PNG</small></label>
+<p class="stat" id="fi"></p>
+<div id="cw" class="hide">
+<div class="row"><label>Ratio<select id="pr"><option value="0:0">Free</option><option value="1:1">Square 1:1</option><option value="7:9">Passport 35×45 mm (7:9)</option><option value="3:4">3:4</option><option value="4:5">4:5</option><option value="3:2">3:2</option><option value="16:9">16:9</option></select></label>
+<label>Custom W<input type="number" id="rw" min="0" step="any"></label><label>Custom H<input type="number" id="rh" min="0" step="any"></label></div>
+<p class="stat">Drag the box to move it. Drag the blue corner to resize.</p>
+<div id="st"><img id="im" alt="Image to crop" draggable="false"><div id="cb"><div id="hd"></div></div></div>
+<div class="row"><label>Output width px (optional)<input type="number" id="ow" min="1"></label><label>Output height px (optional)<input type="number" id="oh" min="1"></label></div>
+<div class="row"><label>Max size (optional)<input type="number" id="ck" min="1" step="any" placeholder="e.g. 50"></label><select id="cu" aria-label="Unit"><option>KB</option><option>MB</option></select></div><button class="p" id="go">Crop image</button>
+<p id="msg" class="stat" role="status"></p>
+<img class="pv zoomable hide" id="pv" alt="Result preview"><a class="p hide" id="dl" download>⬇ Download Image</a>
+</div></div>
+<section class="how"><h2>How to crop</h2><p>Pick a ratio (Passport 7:9 matches 35×45 mm) or type your own, position the box, and tap Crop. Leave output size empty to keep the cropped pixels, or enter a width or height to resize. Check the result with the <a href="file-checker.html">form file checker</a>.</p></section></main>
+<footer class="foot"><div class="wrap fg">
+<div><strong>Tools</strong><a href="image-resizer.html">Photo &amp; Signature Resizer</a><a href="image-to-pdf.html">Image to PDF</a><a href="pdf-compressor.html">PDF Compressor</a><a href="image-crop.html">Image Crop with Ratio</a><a href="passport-photo-sheet.html">Passport Photo Print Sheet</a><a href="bulk-resizer.html">Bulk Resizer to ZIP</a><a href="photo-name-date.html">Add Name &amp; Date to Photo</a><a href="photo-signature-join.html">Join Photo &amp; Signature</a><a href="image-converter.html">PNG / JPG / WebP Converter</a><a href="size-converter.html">cm / mm / inch to Pixels</a><a href="file-checker.html">Form File Checker</a></div>
+<div><strong>About</strong><a href="about.html">About FormFit</a><a href="contact.html">Contact Us</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Use</a></div>
+<div><strong>Our Other Projects</strong><a href="https://rohitwebcraft.github.io/Rohit-Sir-English-Quest/" rel="noopener">Rohit Sir English Quest</a><a href="https://rohitwebcraft.github.io/MFE-QUIZZ-FEA/" rel="noopener">MFE Quizz</a><a href="https://rohitwebcraft.github.io/rohit-sir-english-quiz/" rel="noopener">Rohit Sir English Quiz</a><a href="https://rohitwebcraft.github.io/Rohit_Portfolio-/" rel="noopener">Rohit Sir Portfolio</a></div>
+<div><strong>Private by design</strong><p>All tools run inside your browser. Your photos and documents are never uploaded to any server.</p></div>
+<div><strong>More from Rohit WebCraft</strong><a href="https://rohitwebcraft.github.io/Rohit-Sir-English-Quest/" target="_blank" rel="noopener">Rohit Sir English Quest</a><a href="https://rohitwebcraft.github.io/rohit-sir-english-quiz/" target="_blank" rel="noopener">Rohit Sir English Quiz</a><a href="https://rohitwebcraft.github.io/MFE-QUIZZ-FEA/" target="_blank" rel="noopener">MFE Quiz FEA</a><a href="https://rohitwebcraft.github.io/Rohit_Portfolio-/" target="_blank" rel="noopener">Rohit Portfolio</a></div>
+</div><p class="copy">© 2026 FormFit · Free online student utility tools</p></footer>
+<script src="common.js"></script>
+<script src="zoom.js"></script>
+<script>
+let IM=null,nm='photo',B={x:0,y:0,w:0,h:0},drag=null;
+const cb=$('cb'),im=$('im');
+const ratio=()=>{const w=+$('rw').value,h=+$('rh').value;return w>0&&h>0?w/h:0};
+function paint(){cb.style.left=B.x+'px';cb.style.top=B.y+'px';cb.style.width=B.w+'px';cb.style.height=B.h+'px'}
+function init(){
+  const W=im.clientWidth,H=im.clientHeight,r=ratio();let w=W*.8,h=H*.8;
+  if(r){if(w/h>r)w=h*r;else h=w/r}
+  B={x:(W-w)/2,y:(H-h)/2,w,h};paint();
+}
+zone('d1',async fs=>{
+  const f=fs.find(isImg);if(!f){say('Please select a JPG or PNG image.','err');return}
+  try{IM=await loadBlob(f)}catch(e){say(e.message,'err');return}
+  nm=f.name.replace(/\.[^.]+$/,'');
+  $('fi').innerHTML=f.name+' · <span class="size">'+fmt(f.size)+'</span> · '+IM.naturalWidth+'×'+IM.naturalHeight+' px';
+  $('cw').classList.remove('hide');im.onload=init;im.src=IM.src;
+});
+$('pr').onchange=()=>{const [a,b]=$('pr').value.split(':');$('rw').value=+a||'';$('rh').value=+b||'';if(IM)init()};
+$('rw').oninput=$('rh').oninput=()=>{if(IM)init()};
+cb.onpointerdown=e=>{e.preventDefault();cb.setPointerCapture(e.pointerId);drag={m:e.target.id==='hd'?'r':'m',x:e.clientX,y:e.clientY,b:{...B}}};
+cb.onpointermove=e=>{
+  if(!drag)return;
+  const dx=e.clientX-drag.x,dy=e.clientY-drag.y,W=im.clientWidth,H=im.clientHeight,o=drag.b,r=ratio();
+  if(drag.m==='m'){B.x=Math.min(Math.max(0,o.x+dx),W-o.w);B.y=Math.min(Math.max(0,o.y+dy),H-o.h)}
+  else{
+    let w=Math.max(30,o.w+dx),h=r?w/r:Math.max(30,o.h+dy);
+    if(o.x+w>W){w=W-o.x;if(r)h=w/r}
+    if(o.y+h>H){h=H-o.y;if(r)w=h*r}
+    B.w=w;B.h=h;
+  }
+  paint();
+};
+cb.onpointerup=cb.onpointercancel=()=>drag=null;
+$('go').onclick=async()=>{
+  if(!IM){say('Upload an image first.','err');return}
+  const k=IM.naturalWidth/im.clientWidth,sx=B.x*k,sy=B.y*k,sw=B.w*k,sh=B.h*k;
+  let tw=+$('ow').value,th=+$('oh').value;
+  if(tw&&!th)th=tw*sh/sw;else if(th&&!tw)tw=th*sw/sh;else if(!tw&&!th){tw=sw;th=sh}
+  tw=Math.max(1,Math.round(tw));th=Math.max(1,Math.round(th));
+  const [c,x]=blank(tw,th);x.drawImage(IM,sx,sy,sw,sh,0,0,tw,th);
+  await output(c,nm+'_cropped.jpg');
+};
+</script>
+</body>
+</html>
