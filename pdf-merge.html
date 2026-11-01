@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Merge PDF Files Online Free | FormFit</title>
+<meta name="description" content="Combine several PDF files into one PDF online. Arrange the order, free, private, works in your browser.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://rohitwebcraft.github.io/resize-photo-20kb/pdf-merge.html">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icon-192.png">
+<meta name="theme-color" content="#1d4ed8">
+</head>
+<body>
+<header><div class="wrap"><a class="logo" href="./">FormFit</a><nav class="nav"><a href="./">Tools</a><a href="photo-name-date.html">Name &amp; Date</a><a href="photo-signature-join.html">Photo + Signature</a><a href="about.html">About</a></nav></div></header>
+<main class="wrap page"><h1>Merge PDF: Combine Multiple PDFs into One</h1>
+<p class="stat">Add your PDFs, set the order and download one combined file. Nothing is uploaded.</p>
+<div class="card"><label class="drop" id="d1"><input type="file" id="f1" accept="application/pdf" multiple class="hide"><strong>Tap to add PDF files</strong><br><small>You can add several at once</small></label>
+<div id="list"></div><p class="stat" id="fi"></p>
+<button class="p" id="go">Merge PDFs</button><button class="o" id="x">Clear</button>
+<p id="msg" class="stat" role="status"></p>
+<a class="p hide" id="dl" download>⬇ Download</a></div>
+<section class="how"><h2>How to merge PDFs</h2><p>Add two or more PDFs, use ‹ › to change the order, remove any you do not need and tap Merge. If the result is too large for a portal, use the <a href="pdf-compressor.html">PDF compressor</a>. Password-protected PDFs cannot be merged.</p></section></main>
+<footer class="foot"><div class="wrap fg">
+<div><strong>Tools</strong><a href="image-resizer.html">Photo &amp; Signature Resizer</a><a href="image-to-pdf.html">Image to PDF</a><a href="pdf-compressor.html">PDF Compressor</a><a href="image-crop.html">Image Crop with Ratio</a><a href="passport-photo-sheet.html">Passport Photo Print Sheet</a><a href="bulk-resizer.html">Bulk Resizer to ZIP</a><a href="pdf-merge.html">Merge PDF</a><a href="pdf-split.html">Split / Extract PDF Pages</a><a href="pdf-to-jpg.html">PDF to JPG</a><a href="photo-name-date.html">Add Name &amp; Date to Photo</a><a href="photo-signature-join.html">Join Photo &amp; Signature</a><a href="image-converter.html">PNG / JPG / WebP Converter</a><a href="size-converter.html">cm / mm / inch to Pixels</a><a href="file-checker.html">Form File Checker</a></div>
+<div><strong>About</strong><a href="about.html">About FormFit</a><a href="contact.html">Contact Us</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Use</a></div>
+<div><strong>Our Other Projects</strong><a href="https://rohitwebcraft.github.io/Rohit-Sir-English-Quest/" rel="noopener">Rohit Sir English Quest</a><a href="https://rohitwebcraft.github.io/MFE-QUIZZ-FEA/" rel="noopener">MFE Quizz</a><a href="https://rohitwebcraft.github.io/rohit-sir-english-quiz/" rel="noopener">Rohit Sir English Quiz</a><a href="https://rohitwebcraft.github.io/Rohit_Portfolio-/" rel="noopener">Rohit Sir Portfolio</a></div>
+<div><strong>Private by design</strong><p>All tools run inside your browser. Your photos and documents are never uploaded to any server.</p></div>
+<div><strong>More from Rohit WebCraft</strong><a href="https://rohitwebcraft.github.io/Rohit-Sir-English-Quest/" target="_blank" rel="noopener">Rohit Sir English Quest</a><a href="https://rohitwebcraft.github.io/rohit-sir-english-quiz/" target="_blank" rel="noopener">Rohit Sir English Quiz</a><a href="https://rohitwebcraft.github.io/MFE-QUIZZ-FEA/" target="_blank" rel="noopener">MFE Quiz FEA</a><a href="https://rohitwebcraft.github.io/Rohit_Portfolio-/" target="_blank" rel="noopener">Rohit Portfolio</a></div>
+</div><p class="copy">© 2026 FormFit · Free online student utility tools</p></footer>
+<script src="lib/pdf-lib.min.js"></script>
+<script src="common.js"></script>
+<script>
+let L=[];
+const isPdf=f=>f.type==='application/pdf'||/\.pdf$/i.test(f.name);
+function render(){
+  const box=$('list');box.innerHTML='';
+  L.forEach((it,i)=>{
+    const p=document.createElement('p');p.className='stat';
+    p.innerHTML=(i+1)+'. '+it.f.name.replace(/[<>&"]/g,'')+' · <span class="size">'+fmt(it.f.size)+'</span> ';
+    for(const [t,fn] of [['‹',()=>{if(i>0){[L[i-1],L[i]]=[L[i],L[i-1]];render()}}],['›',()=>{if(i<L.length-1){[L[i+1],L[i]]=[L[i],L[i+1]];render()}}],['×',()=>{L.splice(i,1);render()}]]){
+      const b=document.createElement('button');b.className='o';b.style.padding='2px 10px';b.textContent=t;b.onclick=fn;p.appendChild(b);p.append(' ');
+    }
+    box.appendChild(p);
+  });
+  $('fi').innerHTML=L.length?L.length+' PDF(s) · total <span class="size">'+fmt(L.reduce((a,b)=>a+b.f.size,0))+'</span>':'';
+}
+zone('d1',fs=>{fs.filter(isPdf).forEach(f=>L.push({f}));render()});
+$('x').onclick=()=>{L=[];render();$('dl').classList.add('hide')};
+$('go').onclick=async()=>{
+  if(!window.PDFLib){say('The PDF engine did not load. Check that the lib folder is uploaded.','err');return}
+  if(L.length<2){say('Add at least two PDF files.','err');return}
+  say('Merging…');await wait();
+  try{
+    const out=await PDFLib.PDFDocument.create();
+    for(const it of L){
+      let d;try{d=await PDFLib.PDFDocument.load(await it.f.arrayBuffer())}catch(e){say('Could not read "'+it.f.name+'". It may be password-protected or damaged.','err');return}
+      (await out.copyPages(d,d.getPageIndices())).forEach(p=>out.addPage(p));
+    }
+    const bl=new Blob([await out.save()],{type:'application/pdf'});
+    if(_u)URL.revokeObjectURL(_u);_u=URL.createObjectURL(bl);
+    $('dl').href=_u;$('dl').download='merged.pdf';$('dl').classList.remove('hide');
+    say('✔ Merged '+L.length+' PDFs · '+fmt(bl.size),'ok');
+  }catch(e){say('Merge failed. Please try again.','err')}
+};
+</script>
+</body>
+</html>

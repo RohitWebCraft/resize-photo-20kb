@@ -1,7 +1,7 @@
 // FormFit service worker: caches the app so it opens without internet.
 // When you change index.html, bump the version number below.
-const CACHE = 'formfit-v9';
-const FILES = ['./', 'index.html', 'style.css', 'common.js', 'zoom.js', 'image-resizer.html', 'image-to-pdf.html', 'pdf-compressor.html', 'image-crop.html', 'passport-photo-sheet.html', 'bulk-resizer.html', 'photo-name-date.html', 'photo-signature-join.html', 'image-converter.html', 'size-converter.html', 'file-checker.html', 'about.html', 'contact.html', 'privacy.html', 'terms.html', 'manifest.json', 'icon-192.png', 'icon-512.png'];
+const CACHE = 'formfit-v10';
+const FILES = ['./', 'index.html', 'style.css', 'common.js', 'zoom.js', 'image-resizer.html', 'image-to-pdf.html', 'pdf-compressor.html', 'image-crop.html', 'passport-photo-sheet.html', 'bulk-resizer.html', 'pdf-merge.html', 'pdf-split.html', 'pdf-to-jpg.html', 'photo-name-date.html', 'photo-signature-join.html', 'image-converter.html', 'size-converter.html', 'file-checker.html', 'about.html', 'contact.html', 'privacy.html', 'terms.html', 'manifest.json', 'icon-192.png', 'icon-512.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));

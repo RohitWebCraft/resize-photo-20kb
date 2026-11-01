@@ -110,6 +110,8 @@
 <select id="tu3" aria-label="Unit"><option>KB</option><option>MB</option></select>
 </div>
 <button class="p" id="b3">Compress PDF</button>
+<button class="o" id="b3r" type="button">Compress by converting pages to images</button>
+<p class="stat">If the normal compression cannot shrink your PDF, use the second button. It works on almost any PDF, but turns text into images.</p>
 <p id="m3" class="stat" role="status"></p>
 <a class="p hide" id="dl3" download>⬇ Download Compressed PDF</a>
 </div>
@@ -150,6 +152,9 @@
 <a href="image-crop.html"><b>Image Crop with Ratio</b><span>Crop a photo to square, passport or any custom ratio.</span></a>
 <a href="passport-photo-sheet.html"><b>Passport Photo Print Sheet</b><span>Make a printable A4 or 4x6 sheet with many copies of your photo.</span></a>
 <a href="bulk-resizer.html"><b>Bulk Resizer to ZIP</b><span>Resize many photos to one size limit and download a ZIP.</span></a>
+<a href="pdf-merge.html"><b>Merge PDF</b><span>Combine several PDFs into one file.</span></a>
+<a href="pdf-split.html"><b>Split / Extract PDF Pages</b><span>Pick pages from a PDF or split it into single pages.</span></a>
+<a href="pdf-to-jpg.html"><b>PDF to JPG</b><span>Turn each PDF page into a JPG image.</span></a>
 <a href="photo-name-date.html"><b>Add Name &amp; Date to Photo</b><span>Add the name and date strip below your photo.</span></a>
 <a href="photo-signature-join.html"><b>Join Photo &amp; Signature</b><span>Combine photo and signature into one image.</span></a>
 <a href="image-converter.html"><b>PNG / JPG / WebP Converter</b><span>Convert images to JPG, PNG or WebP.</span></a>
@@ -164,7 +169,7 @@
 </div></section>
 </main>
 <footer class="foot"><div class="wrap fg">
-<div><strong>Tools</strong><a href="image-resizer.html">Photo &amp; Signature Resizer</a><a href="image-to-pdf.html">Image to PDF</a><a href="pdf-compressor.html">PDF Compressor</a><a href="image-crop.html">Image Crop with Ratio</a><a href="passport-photo-sheet.html">Passport Photo Print Sheet</a><a href="bulk-resizer.html">Bulk Resizer to ZIP</a><a href="photo-name-date.html">Add Name &amp; Date to Photo</a><a href="photo-signature-join.html">Join Photo &amp; Signature</a><a href="image-converter.html">PNG / JPG / WebP Converter</a><a href="size-converter.html">cm / mm / inch to Pixels</a><a href="file-checker.html">Form File Checker</a></div>
+<div><strong>Tools</strong><a href="image-resizer.html">Photo &amp; Signature Resizer</a><a href="image-to-pdf.html">Image to PDF</a><a href="pdf-compressor.html">PDF Compressor</a><a href="image-crop.html">Image Crop with Ratio</a><a href="passport-photo-sheet.html">Passport Photo Print Sheet</a><a href="bulk-resizer.html">Bulk Resizer to ZIP</a><a href="pdf-merge.html">Merge PDF</a><a href="pdf-split.html">Split / Extract PDF Pages</a><a href="pdf-to-jpg.html">PDF to JPG</a><a href="photo-name-date.html">Add Name &amp; Date to Photo</a><a href="photo-signature-join.html">Join Photo &amp; Signature</a><a href="image-converter.html">PNG / JPG / WebP Converter</a><a href="size-converter.html">cm / mm / inch to Pixels</a><a href="file-checker.html">Form File Checker</a></div>
 <div><strong>About</strong><a href="about.html">About FormFit</a><a href="contact.html">Contact Us</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Use</a></div>
 <div><strong>Our Other Projects</strong><a href="https://rohitwebcraft.github.io/Rohit-Sir-English-Quest/" rel="noopener">Rohit Sir English Quest</a><a href="https://rohitwebcraft.github.io/MFE-QUIZZ-FEA/" rel="noopener">MFE Quizz</a><a href="https://rohitwebcraft.github.io/rohit-sir-english-quiz/" rel="noopener">Rohit Sir English Quiz</a><a href="https://rohitwebcraft.github.io/Rohit_Portfolio-/" rel="noopener">Rohit Sir Portfolio</a></div>
 <div><strong>Private by design</strong><p>All tools run inside your browser. Your photos and documents are never uploaded to any server.</p></div>
@@ -450,9 +455,71 @@ $('b3').onclick=async()=>{
   }else{
     a.classList.add('hide');m.className='stat err';
     m.textContent=unsupported
-      ?'This PDF uses compressed object streams or encryption, which this browser tool cannot rewrite. Tip: re-save it from your PDF app using "Reduce file size", or convert its pages to images and rebuild them with Image to PDF.'
-      :'This PDF has no images this tool can shrink (text-only PDFs are already small).';
+      ?'This PDF uses compressed object streams or encryption, which this browser tool cannot rewrite. Tip: tap "Compress by converting pages to images", which works on almost any PDF (text becomes an image).'
+      :'This PDF has no images this tool can shrink (text-only PDFs are already small). You can still try "Compress by converting pages to images".';
   }
+};
+
+// ---------- Fallback: rebuild pages as images (works on any PDF that PDF.js can open) ----------
+const _lib={};
+const loadLib=src=>_lib[src]||(_lib[src]=new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=()=>rej(new Error('lib'));document.head.appendChild(s)}));
+function jpegPdf(pg){
+  const enc=new TextEncoder(),parts=[],off=[];let len=0;
+  const push=d=>{const b=typeof d==='string'?enc.encode(d):d;parts.push(b);len+=b.length};
+  const obj=(id,t)=>{off[id]=len;push(id+' 0 obj\n'+t+'\nendobj\n')};
+  push('%PDF-1.4\n');obj(1,'<</Type/Catalog/Pages 2 0 R>>');
+  obj(2,'<</Type/Pages/Count '+pg.length+'/Kids['+pg.map((_,i)=>(3+3*i)+' 0 R').join(' ')+']>>');
+  pg.forEach((p,i)=>{
+    const id=3+3*i,W=p.pw.toFixed(2),H=p.ph.toFixed(2),cs='q '+W+' 0 0 '+H+' 0 0 cm /I Do Q';
+    obj(id,'<</Type/Page/Parent 2 0 R/MediaBox[0 0 '+W+' '+H+']/Resources<</XObject<</I '+(id+2)+' 0 R>>>>/Contents '+(id+1)+' 0 R>>');
+    obj(id+1,'<</Length '+cs.length+'>>\nstream\n'+cs+'\nendstream');
+    off[id+2]=len;push((id+2)+' 0 obj\n<</Type/XObject/Subtype/Image/Width '+p.w+'/Height '+p.h+'/ColorSpace/DeviceRGB/BitsPerComponent 8/Filter/DCTDecode/Length '+p.bytes.length+'>>\nstream\n');
+    push(p.bytes);push('\nendstream\nendobj\n');
+  });
+  const n=3+3*pg.length,x=len;push('xref\n0 '+n+'\n0000000000 65535 f \n');
+  for(let i=1;i<n;i++)push(String(off[i]).padStart(10,'0')+' 00000 n \n');
+  push('trailer\n<</Size '+n+'/Root 1 0 R>>\nstartxref\n'+x+'\n%%EOF');
+  return new Blob(parts,{type:'application/pdf'});
+}
+$('b3r').onclick=async()=>{
+  const m=$('m3'),custom=$('q3').value==='custom';let target=null;
+  if(custom){
+    const v=parseFloat($('tv3').value);
+    if(!(v>0)){m.className='stat err';m.textContent='Enter a target size greater than 0.';return}
+    target=Math.round(v*($('tu3').value==='MB'?1048576:1024));
+  }
+  try{
+    m.className='stat';m.textContent='Loading PDF engine…';await wait();
+    await loadLib('lib/pdf.min.js');pdfjsLib.GlobalWorkerOptions.workerSrc='lib/pdf.worker.min.js';
+    let doc;try{doc=await pdfjsLib.getDocument({data:new Uint8Array(await pdf3.arrayBuffer())}).promise}
+    catch(e){m.className='stat err';m.textContent='This PDF could not be opened. It may be password-protected or damaged.';return}
+    const pages=[];
+    for(let i=1;i<=doc.numPages;i++){
+      m.textContent='Reading page '+i+' of '+doc.numPages+'…';await wait();
+      const pg=await doc.getPage(i),v1=pg.getViewport({scale:1});let k=150/72;const mx=Math.max(v1.width,v1.height)*k;if(mx>3000)k*=3000/mx;
+      const vp=pg.getViewport({scale:k}),c=document.createElement('canvas');c.width=Math.round(vp.width);c.height=Math.round(vp.height);
+      const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);
+      await pg.render({canvasContext:x,viewport:vp}).promise;pages.push({c,pw:v1.width,ph:v1.height});
+    }
+    const steps=[[1,.7],[.8,.55],[.65,.45],[.5,.35],[.4,.3],[.3,.25]],start=custom?0:({1:0,2:1,4:3}[$('q3').value]||1);
+    let best=null;
+    for(let s=start;s<steps.length;s++){
+      m.textContent='Compressing (pass '+(s-start+1)+')…';await wait();
+      const out=[];
+      for(const p of pages){
+        const c2=steps[s][0]<1?drawWH(p.c,Math.round(p.c.width*steps[s][0]),Math.round(p.c.height*steps[s][0])):p.c;
+        const bl=await toBlob(c2,steps[s][1]);
+        out.push({w:c2.width,h:c2.height,pw:p.pw,ph:p.ph,bytes:new Uint8Array(await bl.arrayBuffer())});
+      }
+      best=jpegPdf(out);
+      if(custom?best.size<=target:best.size<pdf3.size*.97)break;
+    }
+    const a=$('dl3');
+    if(best&&best.size<pdf3.size){
+      a.href=URL.createObjectURL(best);a.download='compressed_'+pdf3.name;a.classList.remove('hide');
+      m.className='stat ok';m.textContent='✔ '+fmt(pdf3.size)+' → '+fmt(best.size)+' (saved '+fmt(pdf3.size-best.size)+'). Every page is now an image, so text can no longer be selected or searched. Open the PDF and check that it is readable before you submit it.'+(custom&&best.size>target?' Could not reach '+fmt(target)+'; this is the smallest possible.':'');
+    }else{a.classList.add('hide');m.className='stat err';m.textContent='Converting pages to images did not make this PDF smaller.'}
+  }catch(e){m.className='stat err';m.textContent=e&&e.message==='lib'?'The PDF engine did not load. Check that the lib folder is uploaded.':'Could not compress this PDF.'}
 };
 
 // ---------- PWA ----------

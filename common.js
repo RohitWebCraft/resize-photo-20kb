@@ -64,6 +64,42 @@ function buildPdf(pages){
   return new Blob(parts,{type:'application/pdf'});
 }
 
+function parseRange(str,n){
+  const out=[];
+  for(const part of str.split(',')){
+    const t=part.trim();if(!t)continue;
+    const m=t.match(/^(\d+)(?:\s*-\s*(\d+))?$/);if(!m)return null;
+    const a=+m[1],b=m[2]?+m[2]:a;if(a<1||b<a||b>n)return null;
+    for(let i=a;i<=b;i++)out.push(i-1);
+  }
+  return out;
+}
+function crc32(u){
+  const t=crc32.t||(crc32.t=Array.from({length:256},(_,n)=>{let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;return c>>>0}));
+  let r=-1;for(let i=0;i<u.length;i++)r=t[(r^u[i])&255]^(r>>>8);return(r^-1)>>>0;
+}
+function zip(list){
+  const enc=new TextEncoder(),parts=[],cd=[];let off=0;
+  const w=a=>{parts.push(a);off+=a.length};
+  for(const f of list){
+    const n=enc.encode(f.name),crc=crc32(f.bytes),h=new DataView(new ArrayBuffer(30));
+    h.setUint32(0,0x04034b50,true);h.setUint16(4,20,true);h.setUint16(6,0x0800,true);h.setUint16(12,0x21,true);
+    h.setUint32(14,crc,true);h.setUint32(18,f.bytes.length,true);h.setUint32(22,f.bytes.length,true);h.setUint16(26,n.length,true);
+    cd.push({n,crc,len:f.bytes.length,off});w(new Uint8Array(h.buffer));w(n);w(f.bytes);
+  }
+  const cs=off;
+  for(const e of cd){
+    const h=new DataView(new ArrayBuffer(46));
+    h.setUint32(0,0x02014b50,true);h.setUint16(4,20,true);h.setUint16(6,20,true);h.setUint16(8,0x0800,true);h.setUint16(14,0x21,true);
+    h.setUint32(16,e.crc,true);h.setUint32(20,e.len,true);h.setUint32(24,e.len,true);h.setUint16(28,e.n.length,true);h.setUint32(42,e.off,true);
+    w(new Uint8Array(h.buffer));w(e.n);
+  }
+  const ce=new DataView(new ArrayBuffer(22));
+  ce.setUint32(0,0x06054b50,true);ce.setUint16(8,cd.length,true);ce.setUint16(10,cd.length,true);ce.setUint32(12,off-cs,true);ce.setUint32(16,cs,true);
+  w(new Uint8Array(ce.buffer));
+  return new Blob(parts,{type:'application/zip'});
+}
+
 if('serviceWorker' in navigator&&location.protocol.startsWith('http')){
   window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 }

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Split PDF or Extract Pages Online Free | FormFit</title>
+<meta name="description" content="Extract selected pages from a PDF or split it into single-page PDFs. Free, private, works in your browser.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://rohitwebcraft.github.io/resize-photo-20kb/pdf-split.html">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icon-192.png">
+<meta name="theme-color" content="#1d4ed8">
+</head>
+<body>
+<header><div class="wrap"><a class="logo" href="./">FormFit</a><nav class="nav"><a href="./">Tools</a><a href="photo-name-date.html">Name &amp; Date</a><a href="photo-signature-join.html">Photo + Signature</a><a href="about.html">About</a></nav></div></header>
+<main class="wrap page"><h1>Split PDF and Extract Pages</h1>
+<p class="stat">Pick the pages you need, or split every page into its own PDF. Nothing is uploaded.</p>
+<div class="card"><label class="drop" id="d1"><input type="file" id="f1" accept="application/pdf"  class="hide"><strong>Tap to upload a PDF</strong><br><small>One PDF file</small></label>
+<p class="stat" id="fi"></p>
+<div class="row"><label>Pages (e.g. 1-3,5,8-10; empty = all)<input type="text" id="rg" placeholder="1-3,5"></label>
+<label>Output<select id="md"><option value="one">One PDF with these pages</option><option value="each">Each page as a separate PDF (ZIP)</option></select></label></div>
+<button class="p" id="go">Create</button>
+<p id="msg" class="stat" role="status"></p>
+<a class="p hide" id="dl" download>⬇ Download</a></div>
+<section class="how"><h2>How to split a PDF</h2><p>Upload a PDF, type the pages you want (you can also reorder, like 3,1,2), and tap Create. Page numbers start at 1. To join files back together, use <a href="pdf-merge.html">merge PDF</a>.</p></section></main>
+<footer class="foot"><div class="wrap fg">
+<div><strong>Tools</strong><a href="image-resizer.html">Photo &amp; Signature Resizer</a><a href="image-to-pdf.html">Image to PDF</a><a href="pdf-compressor.html">PDF Compressor</a><a href="image-crop.html">Image Crop with Ratio</a><a href="passport-photo-sheet.html">Passport Photo Print Sheet</a><a href="bulk-resizer.html">Bulk Resizer to ZIP</a><a href="pdf-merge.html">Merge PDF</a><a href="pdf-split.html">Split / Extract PDF Pages</a><a href="pdf-to-jpg.html">PDF to JPG</a><a href="photo-name-date.html">Add Name &amp; Date to Photo</a><a href="photo-signature-join.html">Join Photo &amp; Signature</a><a href="image-converter.html">PNG / JPG / WebP Converter</a><a href="size-converter.html">cm / mm / inch to Pixels</a><a href="file-checker.html">Form File Checker</a></div>
+<div><strong>About</strong><a href="about.html">About FormFit</a><a href="contact.html">Contact Us</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Use</a></div>
+<div><strong>Our Other Projects</strong><a href="https://rohitwebcraft.github.io/Rohit-Sir-English-Quest/" rel="noopener">Rohit Sir English Quest</a><a href="https://rohitwebcraft.github.io/MFE-QUIZZ-FEA/" rel="noopener">MFE Quizz</a><a href="https://rohitwebcraft.github.io/rohit-sir-english-quiz/" rel="noopener">Rohit Sir English Quiz</a><a href="https://rohitwebcraft.github.io/Rohit_Portfolio-/" rel="noopener">Rohit Sir Portfolio</a></div>
+<div><strong>Private by design</strong><p>All tools run inside your browser. Your photos and documents are never uploaded to any server.</p></div>
+<div><strong>More from Rohit WebCraft</strong><a href="https://rohitwebcraft.github.io/Rohit-Sir-English-Quest/" target="_blank" rel="noopener">Rohit Sir English Quest</a><a href="https://rohitwebcraft.github.io/rohit-sir-english-quiz/" target="_blank" rel="noopener">Rohit Sir English Quiz</a><a href="https://rohitwebcraft.github.io/MFE-QUIZZ-FEA/" target="_blank" rel="noopener">MFE Quiz FEA</a><a href="https://rohitwebcraft.github.io/Rohit_Portfolio-/" target="_blank" rel="noopener">Rohit Portfolio</a></div>
+</div><p class="copy">© 2026 FormFit · Free online student utility tools</p></footer>
+<script src="lib/pdf-lib.min.js"></script>
+<script src="common.js"></script>
+<script>
+let S=null,count=0;
+zone('d1',async fs=>{
+  if(!window.PDFLib){say('The PDF engine did not load. Check that the lib folder is uploaded.','err');return}
+  const f=fs[0];if(!f)return;
+  try{const d=await PDFLib.PDFDocument.load(await f.arrayBuffer());S={f,d};count=d.getPageCount();
+    $('fi').innerHTML=f.name.replace(/[<>&"]/g,'')+' · <span class="size">'+fmt(f.size)+'</span> · '+count+' page(s)'}
+  catch(e){S=null;$('fi').textContent='';say('Could not read this PDF. It may be password-protected or damaged.','err')}
+});
+$('go').onclick=async()=>{
+  if(!window.PDFLib){say('The PDF engine did not load. Check that the lib folder is uploaded.','err');return}
+  if(!S){say('Upload a PDF first.','err');return}
+  const idx=$('rg').value.trim()?parseRange($('rg').value,count):[...Array(count).keys()];
+  if(!idx||!idx.length){say('Check the page range. Use a format like 1-3,5. This PDF has '+count+' page(s).','err');return}
+  say('Working…');await wait();
+  const base=S.f.name.replace(/\.pdf$/i,'').replace(/[^\w.\- ]+/g,'_');let bl,name;
+  try{
+    if($('md').value==='one'){
+      const o=await PDFLib.PDFDocument.create();(await o.copyPages(S.d,idx)).forEach(p=>o.addPage(p));
+      bl=new Blob([await o.save()],{type:'application/pdf'});name=base+'_pages.pdf';
+    }else{
+      const fl=[];
+      for(const i of idx){const o=await PDFLib.PDFDocument.create();const [p]=await o.copyPages(S.d,[i]);o.addPage(p);fl.push({name:base+'_page'+(i+1)+'.pdf',bytes:await o.save()})}
+      bl=zip(fl);name=base+'_pages.zip';
+    }
+  }catch(e){say('Failed. Please try again.','err');return}
+  if(_u)URL.revokeObjectURL(_u);_u=URL.createObjectURL(bl);
+  $('dl').href=_u;$('dl').download=name;$('dl').classList.remove('hide');
+  say('✔ Done · '+idx.length+' page(s) · '+fmt(bl.size),'ok');
+};
+</script>
+</body>
+</html>
